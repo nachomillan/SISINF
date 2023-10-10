@@ -13,7 +13,7 @@ client.connect()
     console.error('Error connecting to the database:', err);
   });
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   // Ejecutar una consulta en la base de datos
   client.query('SELECT * FROM usuario')
     .then((response) => {
