@@ -53,4 +53,4 @@ class UsuarioVO {
   }
 }
 
-
+module.exports = UsuarioVO;
