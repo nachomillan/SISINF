@@ -26,5 +26,35 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.release()
         }
     }
-    
-    module.exports = {crearUsuario, validarUsuario}
+    async function buscarUsuario(usuarioVO) {
+        const query = 'SELECT * FROM usuario WHERE nombreUsuario = $1';
+        const values = [usuarioVO.getNombreUsuario()];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            return result.rows;
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    async function eliminarUsuario(usuarioVO) {
+        const query = 'DELETE FROM usuario WHERE iduser = $1';
+        const values = [usuarioVO.getIdUser()];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            if (result.rowCount > 0) {
+                return true; // Indica que se eliminó el usuario con éxito
+            } else {
+                return false; // Indica que no se encontró el usuario para eliminar
+            }
+            } catch (error) {
+                throw error;
+            } finally {
+                client.release();
+            }
+    }
+
+    module.exports = {crearUsuario, validarUsuario, buscarUsuario, eliminarUsuario}
