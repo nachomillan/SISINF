@@ -56,5 +56,26 @@ const usuarioVO = require('../VO/UsuarioVO')
                 client.release();
             }
     }
+    async function actualizarContraseña(usuarioVO, nuevaContraseña) {
+        const query = 'UPDATE usuario SET contraseña = $1 WHERE iduser = $2';
+        const values = [nuevaContraseña, usuarioVO.getIdUser()];
+    
+        const client = await pool.connect();
+    
+        try {
+            const result = await client.query(query, values);
+            // Verificar si se actualizó algún registro
+            if (result.rowCount > 0) {
+                return true; // Indica que la contraseña se actualizó con éxito
+            } else {
+                return false; // Indica que no se encontró el usuario para actualizar
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
 
-    module.exports = {crearUsuario, validarUsuario, buscarUsuario, eliminarUsuario}
+
+    module.exports = {crearUsuario, validarUsuario, buscarUsuario, eliminarUsuario, actualizarContraseña}
