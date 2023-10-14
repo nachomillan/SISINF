@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
-async function crearComentario(comentarioVO) {
+async function crearComentario(publicarVO) {
     const query = 'INSERT INTO comentarios (idusuario, texto, fecha) VALUES ($1, $2, $3) RETURNING idcomentario';
     const values = [comentarioVO.getIdUsuario(), comentarioVO.getTexto(), comentarioVO.getFecha()];
     const client = await pool.connect();
@@ -31,7 +31,7 @@ async function leerComentarioPorId(idcomentario) {
     }
 }
 
-async function actualizarComentario(comentarioVO) {
+async function actualizarComentario(publicarVO) {
     const query = 'UPDATE comentarios SET texto = $1 WHERE idcomentario = $2';
     const values = [comentarioVO.getTexto(), comentarioVO.getIdComentario()];
     const client = await pool.connect();
