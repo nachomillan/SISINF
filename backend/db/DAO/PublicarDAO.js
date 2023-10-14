@@ -1,14 +1,19 @@
 const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
-async function crearComentario(publicarVO) {
-    const query = 'INSERT INTO comentarios (idusuario, texto, fecha) VALUES ($1, $2, $3) RETURNING idcomentario';
-    const values = [comentarioVO.getIdUsuario(), comentarioVO.getTexto(), comentarioVO.getFecha()];
+async function crearPublicacion(publicarVO) {
+    const query = 'INSERT INTO publicaciones (iduser_publicar, idprod_publicar, valoracion, comentario) VALUES ($1, $2, $3, $4) RETURNING id_publicacion';
+    const values = [
+        publicarVO.getIdUserPublicar(),
+        publicarVO.getIdProdPublicar(),
+        publicarVO.getValoracion(),
+        publicarVO.getComentario()
+    ];
     const client = await pool.connect();
 
     try {
         const result = await client.query(query, values);
-        return result.rows[0]; // Devuelve el nuevo comentario creado
+        return result.rows[0]; // Devuelve el ID de la nueva publicación creada
     } catch (error) {
         throw error;
     } finally {
@@ -16,14 +21,14 @@ async function crearComentario(publicarVO) {
     }
 }
 
-async function leerComentarioPorId(idcomentario) {
-    const query = 'SELECT * FROM comentarios WHERE idcomentario = $1';
-    const values = [idcomentario];
+async function leerPublicacionPorId(id_publicacion) {
+    const query = 'SELECT * FROM publicaciones WHERE id_publicacion = $1';
+    const values = [id_publicacion];
     const client = await pool.connect();
 
     try {
         const result = await client.query(query, values);
-        return result.rows[0]; // Devuelve el comentario encontrado
+        return result.rows[0]; // Devuelve la publicación encontrada
     } catch (error) {
         throw error;
     } finally {
@@ -31,18 +36,22 @@ async function leerComentarioPorId(idcomentario) {
     }
 }
 
-async function actualizarComentario(publicarVO) {
-    const query = 'UPDATE comentarios SET texto = $1 WHERE idcomentario = $2';
-    const values = [comentarioVO.getTexto(), comentarioVO.getIdComentario()];
+async function actualizarPublicacion(publicarVO) {
+    const query = 'UPDATE publicaciones SET valoracion = $1, comentario = $2 WHERE id_publicacion = $3';
+    const values = [
+        publicarVO.getValoracion(),
+        publicarVO.getComentario(),
+        publicarVO.getIdPublicacion()
+    ];
     const client = await pool.connect();
 
     try {
         const result = await client.query(query, values);
         // Verificar si se actualizó algún registro
         if (result.rowCount > 0) {
-            return true; // Indica que el comentario se actualizó con éxito
+            return true; // Indica que la publicación se actualizó con éxito
         } else {
-            return false; // Indica que no se encontró el comentario para actualizar
+            return false; // Indica que no se encontró la publicación para actualizar
         }
     } catch (error) {
         throw error;
@@ -51,18 +60,18 @@ async function actualizarComentario(publicarVO) {
     }
 }
 
-async function eliminarComentario(idcomentario) {
-    const query = 'DELETE FROM comentarios WHERE idcomentario = $1';
-    const values = [idcomentario];
+async function eliminarPublicacion(id_publicacion) {
+    const query = 'DELETE FROM publicaciones WHERE id_publicacion = $1';
+    const values = [id_publicacion];
     const client = await pool.connect();
 
     try {
         const result = await client.query(query, values);
         // Verificar si se eliminó algún registro
         if (result.rowCount > 0) {
-            return true; // Indica que el comentario se eliminó con éxito
+            return true; // Indica que la publicación se eliminó con éxito
         } else {
-            return false; // Indica que no se encontró el comentario para eliminar
+            return false; // Indica que no se encontró la publicación para eliminar
         }
     } catch (error) {
         throw error;
@@ -72,8 +81,8 @@ async function eliminarComentario(idcomentario) {
 }
 
 module.exports = {
-    crearComentario,
-    leerComentarioPorId,
-    actualizarComentario,
-    eliminarComentario
+    crearPublicacion,
+    leerPublicacionPorId,
+    actualizarPublicacion,
+    eliminarPublicacion
 };
