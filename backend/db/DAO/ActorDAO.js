@@ -49,9 +49,9 @@ async function actualizarActor(actorVO) {
         const result = await client.query(query, values);
         // Verificar si se actualizó algún registro
         if (result.rowCount > 0) {
-            return true; // Indica que el actor se actualizó con éxito
+            return true;
         } else {
-            return false; // Indica que no se encontró el actor para actualizar
+            return false; 
         }
     } catch (error) {
         throw error;
@@ -69,9 +69,9 @@ async function eliminarActor(id_actor) {
         const result = await client.query(query, values);
         // Verificar si se eliminó algún registro
         if (result.rowCount > 0) {
-            return true; // Indica que el actor se eliminó con éxito
+            return true; 
         } else {
-            return false; // Indica que no se encontró el actor para eliminar
+            return false;
         }
     } catch (error) {
         throw error;
