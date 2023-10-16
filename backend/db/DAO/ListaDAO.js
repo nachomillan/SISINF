@@ -13,4 +13,21 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.end()
         }
     }
-    module.exports = {crearUsuario}
+    async function crearLista(listaVO) {
+        const query = 'INSERT INTO listas (nombre, usuario_id) VALUES ($1, $2) RETURNING id_lista';
+        const values = [
+            listaVO.getNombre(),
+            listaVO.getUsuarioId()
+        ];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            return result.rows[0]; 
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    module.exports = {crearUsuario,
+                     crearLista};
