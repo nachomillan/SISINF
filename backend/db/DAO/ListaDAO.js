@@ -14,7 +14,7 @@ const usuarioVO = require('../VO/UsuarioVO')
         }
     }
     async function crearLista(listaVO) {
-        const query = 'INSERT INTO listas (nombre, usuario_id) VALUES ($1, $2) RETURNING id_lista';
+        const query = 'INSERT INTO listas_peliculas (nombre, usuario_id) VALUES ($1, $2) RETURNING id_lista';
         const values = [
             listaVO.getNombre(),
             listaVO.getUsuarioId()
@@ -23,6 +23,24 @@ const usuarioVO = require('../VO/UsuarioVO')
         try {
             const result = await client.query(query, values);
             return result.rows[0]; 
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    async function eliminarLista(id_lista) {
+        const query = 'DELETE FROM listas_peliculas WHERE id_lista = $1';
+        const values = [id_lista];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            // Verificar si se eliminó algún registro
+            if (result.rowCount > 0) {
+                return true; // Indica que la lista se eliminó con éxito
+            } else {
+                return false; // Indica que no se encontró la lista para eliminar
+            }
         } catch (error) {
             throw error;
         } finally {
