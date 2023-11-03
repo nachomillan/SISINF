@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <h1>Mi Aplicación de Búsqueda de Películas</h1>
       <MovieSearch />
+      <Menu></Menu>
     </div>
   );
 }
