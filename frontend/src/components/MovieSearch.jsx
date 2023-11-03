@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 
 function MovieSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const apiKey = 'k_sat3m0dj'; // Reemplaza con tu clave de API
 
-  useEffect(() => {
-    console.log('searchResults actualizado:', searchResults);
-  }, [searchResults]);
+  // useEffect(() => {
+  //   console.log('searchResults actualizado:', searchResults);
+  // }, [searchResults]);
 
 
   const handleSearch = async () => {
