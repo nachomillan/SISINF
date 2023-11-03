@@ -1,8 +1,8 @@
 const pool = require('./ConnectionManager');
 const usuarioVO = require('../VO/UsuarioVO')
-    async function crearUsuario(usuarioVO) {
+    async function crearUsuario(nombreusuario, foto, correo, contraseña) {
         const query = 'INSERT INTO usuario (nombreUsuario, foto, correo, contraseña) VALUES ($1, $2, $3, $4) RETURNING iduser';
-        const values = [usuarioVO.getNombreUsuario(), usuarioVO.getFoto(), usuarioVO.getCorreo(), usuarioVO.getContraseña()];
+        const values = [nombreusuario, foto, correo, contraseña];
         const client = await pool.connect()
         try {
             const result = await client.query(query, values);
@@ -13,35 +13,65 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.release()
         }
     }
-    async function validarUsuario(usuarioVO) {
-        const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE iduser = $1)';
-        const values = [usuarioVO.getIdUser()];
+    async function validarUsuarioPorNombre(_nombreUsuario) {
+        const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE nombreUsuario = $1)';
+        const values = [_nombreUsuario];
         const client = await pool.connect()
         try {
             const result = await client.query(query, values);
-            return result;
+            return result.rows[0].exists;
+        } catch (error) {
+            console.log(error)
+            throw error;
+        } finally{
+            client.release()
+        }
+    }
+    async function validarUsuarioPorCorreo(_correo) {
+        const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE correo = $1)';
+        const values = [_correo];
+        const client = await pool.connect()
+        try {
+            const result = await client.query(query, values);
+            return result.rows[0].exists;
         } catch (error) {
             throw error;
         } finally{
             client.release()
         }
     }
-    async function buscarUsuario(usuarioVO) {
-        const query = 'SELECT * FROM usuario WHERE nombreUsuario = $1';
-        const values = [usuarioVO.getNombreUsuario()];
+    async function buscarNombreUsuario(idUser) {
+    const query = 'SELECT nombreUsuario FROM usuario WHERE idUser = $1';
+    const client = await pool.connect();
+    const values = [idUser];
+    try {
+        const result = await client.query(query, values);
+        return result[0];
+    } catch (error) {
+        console.log("error de la conexion  ")
+        throw error;
+    } finally {
+        client.release();
+    }
+    }
+    async function buscarUsuario(idUser) {
+        const query = 'SELECT * FROM usuario WHERE iduser = $1';
         const client = await pool.connect();
+        const values = [idUser];
         try {
             const result = await client.query(query, values);
-            return result.rows;
+            return result.rows[0];
         } catch (error) {
+            console.log(error);
+
             throw error;
         } finally {
             client.release();
         }
     }
-    async function eliminarUsuario(usuarioVO) {
+    async function eliminarUsuario(idUser) {
         const query = 'DELETE FROM usuario WHERE iduser = $1';
-        const values = [usuarioVO.getIdUser()];
+        const values = [idUser];
         const client = await pool.connect();
         try {
             const result = await client.query(query, values);
@@ -56,9 +86,9 @@ const usuarioVO = require('../VO/UsuarioVO')
                 client.release();
             }
     }
-    async function actualizarContraseña(usuarioVO, nuevaContraseña) {
+    async function actualizarContraseña(idUser, nuevaContraseña) {
         const query = 'UPDATE usuario SET contraseña = $1 WHERE iduser = $2';
-        const values = [nuevaContraseña, usuarioVO.getIdUser()];
+        const values = [nuevaContraseña, idUser];
     
         const client = await pool.connect();
     
@@ -78,4 +108,4 @@ const usuarioVO = require('../VO/UsuarioVO')
     }
 
 
-    module.exports = {crearUsuario, validarUsuario, buscarUsuario, eliminarUsuario, actualizarContraseña}
+    module.exports = {crearUsuario, validarUsuarioPorNombre,validarUsuarioPorCorreo, buscarUsuario, eliminarUsuario, actualizarContraseña}

@@ -1,31 +1,19 @@
 const express = require('express')
 require('dotenv').config();
-const { crearUsuario, validarUsuario } = require('./db/DAO/UsuarioDAO');
-const UsuarioVO = require('./db/VO/UsuarioVO')
+var bodyParser = require('body-parser')
 const app = express()
-const port = 3000
+const { Client } = require('pg');
+const port = process.env.port
+const userRoutes = require('./routes/User')
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.get('/', async (req, res) => {
-  try {
-    // const nuevoUsuario = new UsuarioVO();
-    // nuevoUsuario.setIdUser(1)
-    // nuevoUsuario.setNombreUsuario("hola");
-    // nuevoUsuario.setFoto("hola");
-    // nuevoUsuario.setCorreo("hola");
-    // nuevoUsuario.setContraseña("hola");
 
-    // const resultado = await validarUsuario(nuevoUsuario);
-    // if (resultado.rows[0].exists) {
-    //     console.log('El usuario existe en la base de datos.');
-    //   } else {
-    //     console.log('El usuario no existe en la base de datos.');
-    //   }
-      res.send("HOLA MUNDO!");
-  } catch (error) {
-    console.error('Error al crear usuario:', error);
-    res.status(500).send('Error al crear usuario');
-  }
-});
+app.use('/user', userRoutes)
+app.use('/', (req, res) =>{
+  res.send("hello WOrld!");
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
