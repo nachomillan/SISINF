@@ -5,7 +5,7 @@ import MovieSearch from './components/MovieSearch'; // Asegúrate de ajustar la 
 function App() {
   return (
     <div className="App">
-      <h1>Mi Aplicación de Búsqueda de Películas</h1>
+      <h1>MOVIUS</h1>
       <MovieSearch />
       <Menu></Menu>
     </div>
