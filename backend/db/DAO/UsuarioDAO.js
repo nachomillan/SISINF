@@ -1,8 +1,11 @@
 const pool = require('./ConnectionManager');
-const usuarioVO = require('../VO/UsuarioVO')
-    async function crearUsuario(nombreusuario, foto, correo, contraseña) {
-        const query = 'INSERT INTO usuario (nombreUsuario, foto, correo, contraseña) VALUES ($1, $2, $3, $4) RETURNING iduser';
-        const values = [nombreusuario, foto, correo, contraseña];
+const usuarioVO = require('../VO/UsuarioVO');
+// const bcrypt = require('bcrypt')
+    async function crearUsuario(nombreusuario, foto, correo, contrasena) {
+        const query = 'INSERT INTO usuario (nombreUsuario, foto, correo, contrasena) VALUES ($1, $2, $3, $4) RETURNING iduser';
+        // const salt = await bcrypt.genSalt();
+        // contrasena = await bcrypt.hash(contrasena, salt)
+        const values = [nombreusuario, foto, correo, contrasena];
         const client = await pool.connect()
         try {
             const result = await client.query(query, values);
@@ -17,6 +20,20 @@ const usuarioVO = require('../VO/UsuarioVO')
         const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE nombreUsuario = $1)';
         const values = [_nombreUsuario];
         const client = await pool.connect()
+        try {
+            const result = await client.query(query, values);
+            return result.rows[0].exists;
+        } catch (error) {
+            console.log(error)
+            throw error;
+        } finally{
+            client.release()
+        }
+    }
+    async function validarUsuarioPorNombreYPassword(_nombreUsuario, _contrasena){
+        const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE nombreUsuario = $1 and contrasena = $2)';
+        const values = [_nombreUsuario, _contrasena];
+         const client = await pool.connect()
         try {
             const result = await client.query(query, values);
             return result.rows[0].exists;
@@ -108,4 +125,4 @@ const usuarioVO = require('../VO/UsuarioVO')
     }
 
 
-    module.exports = {crearUsuario, validarUsuarioPorNombre,validarUsuarioPorCorreo, buscarUsuario, eliminarUsuario, actualizarContraseña}
+    module.exports = {crearUsuario, validarUsuarioPorNombre,validarUsuarioPorCorreo, buscarUsuario, eliminarUsuario, actualizarContraseña, validarUsuarioPorNombreYPassword}

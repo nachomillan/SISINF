@@ -3,17 +3,16 @@ const router = express.Router();
 const FuncionesUsuario = require("../db/DAO/UsuarioDAO");
 const user = require("../db/VO/UsuarioVO");
 // Ruta para crear un nuevo usuario
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
-    console.log(req.body)
-    const { nombreusuario, foto, correo, contraseña} = req.body;
+    const { nombreusuario, foto, correo, contrasena} = req.body;
     // const nuevo = new user.UsuarioVO(nombreusuario, foto, correo)
     const validacionPorNombre = await FuncionesUsuario.validarUsuarioPorNombre(nombreusuario)
     const validacionPorCorreo = await FuncionesUsuario.validarUsuarioPorCorreo(correo)
 
     console.log(validacionPorCorreo, " ", validacionPorNombre)
     if(validacionPorCorreo == false && validacionPorNombre== false){
-        const newUser = await FuncionesUsuario.crearUsuario(nombreusuario, foto, correo, contraseña);
+        const newUser = await FuncionesUsuario.crearUsuario(nombreusuario, foto, correo, contrasena);
         res.status(201).json(newUser);
     }else{
         res.status(404).json("Error en algun campo")
@@ -22,6 +21,24 @@ router.post('/', async (req, res) => {
     console.log(error)
     res.status(500).json({ error: 'Error al crear un usuario' });
 
+  }
+});
+router.post('/login', async (req, res) => {
+  try {
+    console.log(req.body)
+    const { nombreusuario, contrasena} = req.body;
+    const validacionPorNombreYPassword = await FuncionesUsuario.validarUsuarioPorNombreYPassword(nombreusuario, contrasena)
+    console.log(nombreusuario, " ", contrasena)
+
+    if(validacionPorNombreYPassword){
+        console.log("logeado")
+        res.status(201).json("Logeado");
+    }else{
+        res.status(404).json("Incorrecto")
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Error al logear un usuario' });
   }
 });
 

@@ -1,17 +1,9 @@
 const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
-async function crearProduccion(produccionVO) {
+async function crearProduccion(titulo, valoracion, genero, año, duracion, tipo, ntemporadas ) {
     const query = 'INSERT INTO producciones (titulo, valoracion, genero, agno, duracion, tipo, ntemporadas) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_produccion';
-    const values = [
-        produccionVO.getTitulo(),
-        produccionVO.getValoracion(),
-        produccionVO.getGenero(),
-        produccionVO.getAgno(),
-        produccionVO.getDuracion(),
-        produccionVO.getTipo(),
-        produccionVO.getNtemporadas()
-    ];
+    const values = [titulo, valoracion, genero, año, duracion, tipo, ntemporadas];
     const client = await pool.connect();
 
     try {
@@ -88,15 +80,15 @@ async function eliminarProduccion(id_produccion) {
     }
 }
 
-async function buscarProduccion(produccionVO) {
-    const query = 'SELECT * FROM producciones WHERE titulo = $1';
-    const values = [produccionVO.getTitulo()];
+async function buscarProduccionPorId(idProd) {
+    const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE correo = $1)';
+    const values = [idProd];
 
     const client = await pool.connect();
 
     try {
         const result = await client.query(query, values);
-        return result.rows; // Devuelve un array de producciones que coinciden con la búsqueda
+        return result.rows[0].exists;
     } catch (error) {
         throw error;
     } finally {
@@ -110,5 +102,5 @@ module.exports = {
     leerProduccionPorId,
     actualizarProduccion,
     eliminarProduccion,
-    buscarProduccion
+    buscarProduccionPorId
 };
