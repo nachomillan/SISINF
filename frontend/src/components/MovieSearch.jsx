@@ -67,9 +67,11 @@
 // export default MovieSearch;
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Estilos/MovieSearch.css'; // Importa tu archivo de estilos CSS
 
 function MovieSearch() {
+    const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const apiKey = 'k_sat3m0dj'; // Reemplaza con tu clave de API
@@ -110,7 +112,7 @@ function MovieSearch() {
           <h2>Resultados de la búsqueda:</h2>
           <ul className="movie-list">
             {searchResults.map((movie) => (
-              <li className="movie-item" key={movie.id}>
+              <li className="movie-item" key={movie.id} onClick={() =>  navigate(`/movies/${movie.id}`)}>
                 <h3>{movie.l}</h3>
                 {movie.i && movie.i.imageUrl && (
                   <img

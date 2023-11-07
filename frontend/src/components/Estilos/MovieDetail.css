@@ -1,0 +1,56 @@
+/* Estilos para el contenedor principal */
+.movie-detail-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    padding: 20px;
+    /* border: 1px solid #ccc; */
+    border-radius: 10px;
+}
+
+/* Estilos para la columna izquierda (imagen y géneros) */
+.column-left {
+    flex: 1;
+    text-align: center;
+}
+
+.movie-image {
+    max-width: 300px;
+    /* Tamaño de la imagen */
+    border: 2px solid #333;
+    /* Borde para la imagen */
+    border-radius: 10px;
+    /* Borde redondeado */
+}
+
+.genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.genre {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+/* Estilos para la columna derecha (título, director, año, duración, resumen) */
+.column-right {
+    flex: 1;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 24px;
+}
+h1 {
+    font-size: 50px;
+}
+
+p {
+    margin: 10px 0;
+    font-size: 24px;
+}
