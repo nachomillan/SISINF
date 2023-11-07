@@ -90,7 +90,9 @@ function MovieSearch() {
       const response = await fetch(url, options);
       const data = await response.json();
       if (data && data.d) {
-        setSearchResults(data.d);
+        const filteredResults = data.d.filter(movie => movie.qid === "movie" || movie.qid === "tvSeries");
+        setSearchResults(filteredResults);
+        console.log(filteredResults)
       }
     } catch (error) {
       console.error(error);
