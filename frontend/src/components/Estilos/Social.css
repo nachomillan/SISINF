@@ -1,0 +1,87 @@
+/* SocialPage.css */
+
+.social-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .main-content {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 80%;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .user-stats {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .add-friends-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .add-friends-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .header h1 {
+    font-size: 32px;
+    margin: 20px 0;
+  }
+  
+  .post {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .comment {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+
+  /* Modifica los estilos para estirar los componentes Menu y MovieSearch */
+  .menu {
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+  }
+
+  .movie-search {
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+  }
+  
+  /* Agrega más estilos según tus necesidades */
