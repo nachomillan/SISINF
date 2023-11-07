@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Menu from '../Menu';
 import MovieSearch from '../MovieSearch';
-import AddFriendsModal from '../AgnadirAmigos'; // Importa el nuevo componente
+import AddFriendsModal from '../AgregarAmigos'; // Importa el nuevo componente
 import '../Estilos/Social.css'; // Importa el archivo de estilos CSS
 
 const SocialPage = () => {
