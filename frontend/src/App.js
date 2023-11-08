@@ -20,7 +20,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/movies/:id" element={<MovieDetail />} />
-              <Route path="/social" element={<MovieDetail />} />
+              <Route path="/social" element={<Social />} />
             </Routes>
           {/* </div>
         </div>
