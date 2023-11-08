@@ -1,11 +1,10 @@
 const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
-async function crearProduccion(titulo, valoracion, genero, año, duracion, tipo, ntemporadas ) {
-    const query = 'INSERT INTO producciones (titulo, valoracion, genero, agno, duracion, tipo, ntemporadas) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_produccion';
-    const values = [titulo, valoracion, genero, año, duracion, tipo, ntemporadas];
+async function crearProduccion(idapi, titulo, genero, agno, duracion, tipo, ntemporadas) {
+    const query = 'INSERT INTO producciones (idapi, titulo, genero, agno, duracion, tipo, ntemporadas) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_produccion';
+    const values = [idapi, titulo, genero, agno, duracion, tipo, ntemporadas];
     const client = await pool.connect();
-
     try {
         const result = await client.query(query, values);
         return result.rows[0]; // Devuelve el ID de la nueva producción creada
@@ -30,7 +29,20 @@ async function leerProduccionPorId(id_produccion) {
         client.release();
     }
 }
-
+async function buscarProduccionPorId(_idapi){
+        const query = 'SELECT EXISTS (SELECT 1 FROM produccion WHERE idapi = $1)';
+        const values = [_idapi];
+         const client = await pool.connect()
+        try {
+            const result = await client.query(query, values);
+            return result.rows[0].exists;
+        } catch (error) {
+            console.log(error)
+            throw error;
+        } finally{
+            client.release()
+        }
+    }
 async function actualizarProduccion(produccionVO) {
     const query = 'UPDATE producciones SET titulo = $1, valoracion = $2, genero = $3, agno = $4, duracion = $5, tipo = $6, ntemporadas = $7 WHERE id_produccion = $8';
     const values = [
@@ -80,21 +92,6 @@ async function eliminarProduccion(id_produccion) {
     }
 }
 
-async function buscarProduccionPorId(idProd) {
-    const query = 'SELECT EXISTS (SELECT 1 FROM usuario WHERE correo = $1)';
-    const values = [idProd];
-
-    const client = await pool.connect();
-
-    try {
-        const result = await client.query(query, values);
-        return result.rows[0].exists;
-    } catch (error) {
-        throw error;
-    } finally {
-        client.release();
-    }
-}
 
 
 module.exports = {
