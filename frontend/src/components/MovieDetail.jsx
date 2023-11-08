@@ -7,6 +7,7 @@ function MovieDetail() {
     const { id } = useParams();
     const [movieData, setMovieData] = useState({});
     const [rating, setRating] = useState(0); // Estado para la calificación
+    const [comment, setComment] = useState("");
     
     const busquedaPeli = async () => {
         const url = `https://online-movie-database.p.rapidapi.com/title/get-overview-details?tconst=${id}&currentCountry=US`;
@@ -32,8 +33,13 @@ function MovieDetail() {
     const handleRatingChange = (newRating) => {
         setRating(newRating);
     };
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+    };
 
-
+    const realizarPublicacion = async() => {
+        
+    };
     useEffect(() => {
         busquedaPeli();
     }, []);
@@ -44,7 +50,7 @@ function MovieDetail() {
                 <img
                     src={movieData.title && movieData.title.image && movieData.title.image.url}
                     alt={movieData.title && movieData.title.title}
-                    className="movie-image"
+                    className="movie-image2"
                 />
                 <div className="genres">
                     {movieData.genres && movieData.genres.map((genre, index) => (
@@ -59,9 +65,14 @@ function MovieDetail() {
                 <p>Duración: {movieData.title && movieData.title.runningTimeInMinutes} minutos</p>
                 <p>{movieData.plotOutline && movieData.plotOutline.text}</p>
                  {/* Campo de calificación con estrellas */}
-                <div className="rating">
-                    <p>Calificación:</p>
+               <div className="rating">
                     <StarRating rating={rating} onRatingChange={handleRatingChange} />
+                    <textarea
+                        placeholder="Deja tu comentario"
+                        value={comment}
+                        onChange={handleCommentChange}
+                    />
+                    <button onClick={realizarPublicacion}>Calificar</button>
                 </div>
             </div>
         </div>

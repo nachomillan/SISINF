@@ -9,9 +9,9 @@ function Menu() {
         <i className="icono-mis-listas">&#9776;</i> MIS LISTAS
       </div>
       <div className="crear-lista">
-        <i className="icono-crear-lista">+</i> CREAR LISTA
+        <i className="icono-crear-lista" >+</i> CREAR LISTA
       </div>
-      <div className="social">
+      <div className="social" onClick={() => navigate('/login')}>
         <i className="icono-social">&#9733;</i> SOCIAL
       </div>
     </div>
