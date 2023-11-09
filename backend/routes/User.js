@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const FuncionesUsuario = require("../db/DAO/UsuarioDAO");
+const FuncionesSeguir= require("../db/DAO/SeguirDAO");
 const user = require("../db/VO/UsuarioVO");
 // Ruta para crear un nuevo usuario
 router.post('/signup', async (req, res) => {
@@ -17,6 +18,44 @@ router.post('/signup', async (req, res) => {
     }else{
         res.status(404).json("Error en algun campo")
     }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Error al crear un usuario' });
+
+  }
+});
+// Ruta para buscar un nuevo usuario
+router.post('/buscar', async (req, res) => {
+  try {
+    const { nombreusuario} = req.body;
+    const validacionPorNombre = await FuncionesUsuario.validarUsuarioPorNombre(nombreusuario)
+
+    if(validacionPorNombre == true){
+        res.status(201).json("Existe");
+    }else{
+        res.status(404).json("No existe")
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Error al crear un usuario' });
+
+  }
+});
+router.post('/seguir', async (req, res) => {
+  try {
+    const { seguidor_id, seguido_id} = req.body;
+    const seguidorid = await FuncionesUsuario.buscarIdUsuarioPorNombre(seguidor_id);
+    const seguidoid = await FuncionesUsuario.buscarIdUsuarioPorNombre(seguido_id);
+
+    const sesiguen = await FuncionesSeguir.seSiguen(seguidorid.iduser, seguidoid.iduser)
+    console.log(false)
+    if(sesiguen == false){
+      const resC = await FuncionesSeguir.seguirUsuario(seguidorid.iduser, seguidoid.iduser)
+      res.status(201).json("seguido")
+    }else{
+      res.status(201).json("ya se siguen") 
+    }
+    
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Error al crear un usuario' });

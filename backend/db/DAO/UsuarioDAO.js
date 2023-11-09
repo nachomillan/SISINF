@@ -57,13 +57,15 @@ const usuarioVO = require('../VO/UsuarioVO');
             client.release()
         }
     }
-    async function buscarNombreUsuario(idUser) {
-    const query = 'SELECT nombreUsuario FROM usuario WHERE idUser = $1';
+    async function buscarIdUsuarioPorNombre(idUser) {
+    console.log(idUser);
+    const query = 'SELECT iduser FROM usuario WHERE nombreusuario = $1';
     const client = await pool.connect();
     const values = [idUser];
     try {
         const result = await client.query(query, values);
-        return result[0];
+        console.log(result.rows[0])
+        return result.rows[0];
     } catch (error) {
         console.log("error de la conexion  ")
         throw error;
@@ -77,6 +79,7 @@ const usuarioVO = require('../VO/UsuarioVO');
         const values = [idUser];
         try {
             const result = await client.query(query, values);
+            console.log(result.rows[0])
             return result.rows[0];
         } catch (error) {
             console.log(error);
@@ -125,4 +128,5 @@ const usuarioVO = require('../VO/UsuarioVO');
     }
 
 
-    module.exports = {crearUsuario, validarUsuarioPorNombre,validarUsuarioPorCorreo, buscarUsuario, eliminarUsuario, actualizarContraseña, validarUsuarioPorNombreYPassword}
+    module.exports = {crearUsuario, validarUsuarioPorNombre,validarUsuarioPorCorreo, buscarUsuario, eliminarUsuario, actualizarContraseña, validarUsuarioPorNombreYPassword,
+    buscarIdUsuarioPorNombre}

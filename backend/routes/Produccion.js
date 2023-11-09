@@ -6,12 +6,13 @@ const prod = require("../db/VO/ProduccionVO");
 router.post('/', async (req, res) => {
   try {
     const { idapi, titulo, genero, agno, duracion, tipo, ntemporadas } = req.body;
-    const validarProd = await FuncionesProduccion.buscarProduccionPorId(idapi)
-    if(validarProd == false){
-        const newUser = await FuncionesProduccion.crearProduccion(idapi, titulo, genero, agno, duracion, tipo, ntemporadas);
+    const validarProd = await FuncionesProduccion.buscarProduccionPorIdApi(idapi)
+    if(validarProd == null){
+        const res = await FuncionesProduccion.crearProduccion(idapi, titulo, genero, agno, duracion, tipo, ntemporadas);
+        res.status(201).json(res);
+      }else{
+        res.status(201).json(validarProd);
       }
-      res.status(201).json("ejecutado");
-      
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Error al crear un usuario' });

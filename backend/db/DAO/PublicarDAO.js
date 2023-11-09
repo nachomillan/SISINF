@@ -2,7 +2,8 @@ const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
 async function crearPublicacion(iduserpublicar, idprodpublicar, valoracion, comentario, fecha) {
-    const query = 'INSERT INTO publicaciones (iduserpublicar, idprodpublicar, valoracion, comentario, fecha) VALUES ($1, $2, $3, $4, $5) RETURNING id_publicacion';
+    console.log(iduserpublicar, idprodpublicar, valoracion, comentario, fecha);
+    const query = 'INSERT INTO publicar (iduserpublicar, idprodpublicar, valoracion, comentario, fecha) VALUES ($1, $2, $3, $4, $5) RETURNING idpublicar';
     const values = [iduserpublicar, idprodpublicar, valoracion, comentario, fecha];
     const client = await pool.connect();
 

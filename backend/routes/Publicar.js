@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const FuncionesPublicar = require("../db/DAO/PublicarDAO");
+const FuncionesUsuario = require("../db/DAO/UsuarioDAO");
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
+    console.log(req.body)
     const { iduserpublicar, idprodpublicar, valoracion, comentario, fecha} = req.body;
-    const newPublicacion = await FuncionesPublicar.crearPublicacion(nombreusuario, foto, correo, contrasena);
-
+    const userId = await FuncionesUsuario.buscarIdUsuarioPorNombre(iduserpublicar);
+    const newPublicacion = await FuncionesPublicar.crearPublicacion(userId.iduser, idprodpublicar, valoracion, comentario, fecha);
     if(newPublicacion){
         res.status(201).json(newPublicacion);
     }else{
@@ -14,7 +16,7 @@ router.post('/', async (req, res) => {
     }
   } catch (error) {
     console.log(error)
-    res.status(500).json({ error: 'Error al crear un usuario' });
+    res.status(500).json({ error: 'Error al crear publicacion' });
 
   }
 });

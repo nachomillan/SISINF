@@ -1,17 +1,26 @@
 const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
-async function seguir(seguirVO) {
-    const query = 'INSERT INTO seguir (seguidor_id, seguido_id) VALUES ($1, $2) RETURNING id_seguimiento';
-    const values = [
-        seguirVO.getSeguidorId(),
-        seguirVO.getSeguidoId()
-    ];
+async function seguirUsuario(seguidor_id, seguido_id) {
+    const query = 'INSERT INTO seguir (seguidor_id, seguido_id) VALUES ($1, $2)';
+    const values = [seguidor_id, seguido_id];
     const client = await pool.connect();
-
     try {
         const result = await client.query(query, values);
         return result.rows[0];
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+async function seSiguen(seguidor_id, seguido_id) {
+    const query = 'SELECT EXISTS (SELECT 1 FROM seguir WHERE seguidor_id = $1 and seguido_id=$2)';
+    const values = [seguidor_id, seguido_id];
+    const client = await pool.connect();
+    try {
+        const result = await client.query(query, values);
+        return result.rows[0].exists;
     } catch (error) {
         throw error;
     } finally {
@@ -56,6 +65,6 @@ async function seguidores(id_usuario) {
 
 module.exports = {
     seguirUsuario,
-    dejarDeSeguirUsuario,
-    obtenerSeguidores
+    seSiguen,
+    // obtenerSeguidores
 };
