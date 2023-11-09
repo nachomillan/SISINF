@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import './Estilos/Signup.css'
 const SignUp = ({ setAuth }) => {
   const navigate = useNavigate();
 
@@ -36,6 +37,8 @@ const SignUp = ({ setAuth }) => {
         setValues({ ...values, message: parseRes });
       } else {
         // Si el inicio de sesión es exitoso, redirige al usuario a la ruta /
+        localStorage.setItem('isLoggedIn', true)
+        localStorage.setItem('username',body.nombreusuario)
         navigate('/');
       }
     } catch (err) {
@@ -43,51 +46,53 @@ const SignUp = ({ setAuth }) => {
     }
   };
 
-  return (
-    <Fragment>
-      <h1 className="mt-5 text-center">Register</h1>
+     return (
+    <div className="register-container">
+      <h1 className="register-title">Register</h1>
       <form onSubmit={onSubmitForm}>
         <input
           type="text"
           name="email"
           value={email}
-          placeholder="email"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
+          placeholder="Email"
+          onChange={(e) => onChange(e)}
+          className="form-control"
         />
         <input
           type="text"
           name="nombreUsuario"
           value={nombreUsuario}
-          placeholder="nombreUsuario"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
+          placeholder="Nombre de Usuario"
+          onChange={(e) => onChange(e)}
+          className="form-control"
         />
         <input
           type="text"
           name="foto"
           value={foto}
-          placeholder="foto"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
+          placeholder="Foto"
+          onChange={(e) => onChange(e)}
+          className="form-control"
         />
-       <input
+        <input
           type="password"
           name="password"
           value={password}
-          placeholder="password"
-          onChange={e => onChange(e)}
-          className="form-control my-3"
+          placeholder="Contraseña"
+          onChange={(e) => onChange(e)}
+          className="form-control"
         />
         {message && (
-        <div className="alert alert-danger" role="alert">
-          {message}
-        </div>
-      )}
-        <button className="btn btn-success btn-block">Submit</button>
+          <div className="alert" role="alert">
+            {message}
+          </div>
+        )}
+        <button className="btn btn-success">Submit</button>
       </form>
-      <button onClick={() => navigate('/login')}>Login</button>
-    </Fragment>
+      <div className="login-link">
+        <button onClick={() => navigate('/login')}>Login</button>
+      </div>
+    </div>
   );
 };
 

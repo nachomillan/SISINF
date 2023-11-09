@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import './Estilos/MovieDetail.css'; // Importa tu archivo de estilos CSS
 import StarRating from './StarRating';
 
 function MovieDetail() {
+  const navigate = useNavigate();
     const { id } = useParams();
     const [movieData, setMovieData] = useState({});
     const [rating, setRating] = useState(0); // Estado para la calificación
@@ -37,8 +39,38 @@ function MovieDetail() {
         setComment(event.target.value);
     };
 
-    const realizarPublicacion = async() => {
-        
+    const realizarCalificacion = async (e) => {
+        e.preventDefault();
+        try {
+            const body = { idapi:id, titulo:  movieData.title.title , genero:movieData.genres[0], agno:movieData.title.year, duracion:movieData.title.runningTimeInMinutes, tipo:0, ntemporadas: 0};
+            const response = await fetch('http://localhost:3001/prod', {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            });
+            const resIdProd = await response.json();
+            const idProdInt = parseInt(resIdProd.idprod, 10); 
+            const currentDateTime = new Date().toISOString();
+            const body2 = {iduserpublicar:localStorage.getItem('username'), idprodpublicar:idProdInt, valoracion:rating, comentario:comment, fecha:currentDateTime};
+            const response2 = await fetch('http://localhost:3001/publicacion', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(body2),
+            });
+            const parseRes = await response2.json();
+            console.log(parseRes)
+            if (parseRes === "Error en algun campo") {
+                console.log(parseRes)
+            } else {
+                navigate('/');
+            }
+        } catch (error) {
+            console.error('Error:', error);          
+        }
     };
     useEffect(() => {
         busquedaPeli();
@@ -64,16 +96,19 @@ function MovieDetail() {
                 <p>Año de estreno: {movieData.title && movieData.title.year}</p>
                 <p>Duración: {movieData.title && movieData.title.runningTimeInMinutes} minutos</p>
                 <p>{movieData.plotOutline && movieData.plotOutline.text}</p>
-                 {/* Campo de calificación con estrellas */}
-               <div className="rating">
-                    <StarRating rating={rating} onRatingChange={handleRatingChange} />
+
+                {/* Formulario de calificación y comentario */}
+                <form onSubmit={realizarCalificacion}>
+                    <div className="rating">
+                        <StarRating rating={rating} onRatingChange={handleRatingChange} />
+                    </div>
                     <textarea
                         placeholder="Deja tu comentario"
                         value={comment}
                         onChange={handleCommentChange}
                     />
-                    <button onClick={realizarPublicacion}>Calificar</button>
-                </div>
+                    <button type="submit">Calificar</button>
+                </form>
             </div>
         </div>
     );

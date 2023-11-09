@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Estilos/Login.css'
 const Login = () => {
   const navigate = useNavigate();
 
@@ -28,6 +29,9 @@ const Login = () => {
       // console.log(response)
        const parseRes = await response.json();
       console.log(parseRes)
+      localStorage.setItem('isLoggedIn', true)
+      localStorage.setItem('username',body.nombreusuario)
+      console.log(localStorage)
       if (parseRes === "Incorrecto") {
         setValues({ ...values, message: parseRes });
       } else {
@@ -38,49 +42,46 @@ const Login = () => {
       console.error('Error:', error);
     }
   };
-  return (
-  <div>
-    <form onSubmit={handleFormSubmit}>
-      <h3>Log In</h3>
-      <div className="mb-3">
-        <label>NombreUsuario</label>
-        <input
-          type="text"
-          name="nombreUsuario"
-          value={nombreUsuario}
-          onChange={(e) => onChange(e)}
-          className="form-control"
-          placeholder="Enter username"
-          required
-        />
-      </div>
-      {message && (
-        <div className="alert alert-danger" role="alert">
-          {message}
+ return (
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleFormSubmit}>
+        <h3 className="login-title">Log In</h3>
+        <div className="form-group">
+          <label className="form-label">Nombre de Usuario</label>
+          <input
+            type="text"
+            name="nombreUsuario"
+            value={nombreUsuario}
+            onChange={(e) => onChange(e)}
+            className="form-input"
+            placeholder="Enter username"
+            required
+          />
         </div>
-      )}
-      <div className="mb-3">
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => onChange(e)}
-          className="form-control"
-          placeholder="Enter password"
-        />
-      </div>
-      <div className="d-grid">
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </div>
-      {/* <p className="forgot-password text-right">
-        Forgot <a href="#">password?</a>
-      </p> */}
-    </form>
-  </div>
-);
+        {message && (
+          <div className="alert" role="alert">
+            {message}
+          </div>
+        )}
+        <div className="form-group">
+          <label className="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => onChange(e)}
+            className="form-input"
+            placeholder="Enter password"
+          />
+        </div>
+        <div className="d-grid">
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 
 };
 
