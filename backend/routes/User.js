@@ -80,6 +80,30 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Error al logear un usuario' });
   }
 });
+router.post('/seguidos', async (req, res) => {
+  try {
+    console.log(req.body)
+    const { nombreusuario} = req.body;
+    const seguidorid = await FuncionesUsuario.buscarIdUsuarioPorNombre(nombreusuario);
+    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidos(seguidorid.iduser)
+    res.status(201).json(cantidadSeguidos)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Error al logear un usuario' });
+  }
+});
+router.post('/seguidores', async (req, res) => {
+  try {
+    console.log(req.body)
+    const { nombreusuario} = req.body;
+    const seguidorid = await FuncionesUsuario.buscarIdUsuarioPorNombre(nombreusuario);
+    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidores(seguidorid.iduser)
+    res.status(201).json(cantidadSeguidos)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Error al logear un usuario' });
+  }
+});
 
 // Ruta para obtener un usuario por su ID
 router.get('/:id', async (req,res) =>{

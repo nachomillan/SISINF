@@ -29,12 +29,12 @@ const Login = () => {
       // console.log(response)
        const parseRes = await response.json();
       console.log(parseRes)
-      localStorage.setItem('isLoggedIn', true)
-      localStorage.setItem('username',body.nombreusuario)
-      console.log(localStorage)
       if (parseRes === "Incorrecto") {
         setValues({ ...values, message: parseRes });
       } else {
+        localStorage.setItem('isLoggedIn', true)
+        localStorage.setItem('username',body.nombreusuario)
+        console.log(localStorage)
         // Si el inicio de sesión es exitoso, redirige al usuario a la ruta /
         navigate('/');
       }
