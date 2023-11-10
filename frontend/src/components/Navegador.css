@@ -1,0 +1,28 @@
+/* Navegador.css */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 12vh;
+  background-color: #f0f0f0;
+}
+
+.navegador-container {
+  background-color: orange;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+  .icon {
+    margin: 0 15px; /* Aumenté el margen para dar más espacio entre los iconos */
+    cursor: pointer;
+  }
+  
+  /* Estilos para MovieSearch (ajústalos según sea necesario) */
+  .search-bar {
+    margin-top: 20px;
+  }
+  

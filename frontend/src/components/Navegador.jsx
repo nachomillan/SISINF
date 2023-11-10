@@ -1,28 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MovieSearch from './MovieSearch';
-import { Link } from 'react-router-dom'; // Asegúrate de tener instalada la biblioteca de enrutamiento que estés utilizando
-import './Estilos/Navegador.css'; // Importa tus estilos CSS si los tienes
+import UserProfile from './UserProfile';
+import { FaHome, FaUser } from 'react-icons/fa';
+import '../Navegador.css';
 
 function Navegador() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    console.log(localStorage)
-  return (
-    <div className="navigation">
-      <div className="logo">
-        <img src="logo.png" alt="Logo" />
-      </div>
-       < MovieSearch />
+  const [showUserProfile, setShowUserProfile] = useState(false);
+  const iconSize = 40;
 
-      {isLoggedIn ? (
-        <div className="user-icon">
-          {/* Mostrar un emoji de persona o la imagen de perfil del usuario */}
-          <span role="img" aria-label="Usuario">
-            👤
-          </span>
-        </div>
+  const handleUserProfileClick = () => {
+    setShowUserProfile(true);
+  };
+
+  const handleHomeClick = () => {
+    setShowUserProfile(false);
+    // Agrega lógica adicional si es necesario al hacer clic en HOME
+  };
+
+  return (
+    <div className="center-container">
+      {showUserProfile ? (
+        <UserProfile username="Larry" followers={100} following={50} movieLists={['Comedia', 'Drama']} style={{ width: '1000px' }}/>
       ) : (
-        <div className="login-link">
-          <Link to="/login">Iniciar Sesión</Link>
+        <div className="navegador-container" style={{ width: '1000px' }}>
+          <FaHome className="icon" size={iconSize} onClick={handleHomeClick} />
+          <MovieSearch />
+          <FaUser className="icon" size={iconSize} onClick={handleUserProfileClick} />
         </div>
       )}
     </div>
