@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../UserProfile.css'; // Asegúrate de tener la ruta correcta
+import './Estilos/UserProfile.css'; // Asegúrate de tener la ruta correcta
 
 const UserProfile = ({ username, followers, following, movieLists }) => {
   return (

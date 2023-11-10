@@ -1,41 +1,28 @@
 /* Navegador.css */
-.navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 12vh;
+  background-color: #f0f0f0;
 }
 
-.logo img {
-    max-width: 100px;
-    height: auto;
+.navegador-container {
+  background-color: orange;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-.search-container {
-    display: flex;
-    align-items: center;
-}
-
-.search-container input[type="text"] {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px;
-}
-
-.search-container button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
+  
+  .icon {
+    margin: 0 15px; /* Aumenté el margen para dar más espacio entre los iconos */
     cursor: pointer;
-}
-
-.login-link a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-}
+  }
+  
+  /* Estilos para MovieSearch (ajústalos según sea necesario) */
+  .search-bar {
+    margin-top: 20px;
+  }
+  

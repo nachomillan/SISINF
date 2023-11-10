@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import MovieSearch from './MovieSearch';
 import UserProfile from './UserProfile';
 import { FaHome, FaUser } from 'react-icons/fa';
-import '../Navegador.css';
+import './Estilos/Navegador.css';
 
 function Navegador() {
   const [showUserProfile, setShowUserProfile] = useState(false);
