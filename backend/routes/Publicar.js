@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const FuncionesPublicar = require("../db/DAO/PublicarDAO");
 const FuncionesUsuario = require("../db/DAO/UsuarioDAO");
+const FuncionesSeguir = require("../db/DAO/SeguirDAO");
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
@@ -55,8 +56,6 @@ router.get('/', async (req,res) =>{
 router.put('/:id', async(req,res)=>{
   try {
     const  idUser = req.params.id
-    console.log(idUser)
-    console.log("hola")
     const user = await FuncionesUsuario.buscarUsuario(idUser);
        if (user) {
       res.status(200).json(user);
@@ -69,5 +68,17 @@ router.put('/:id', async(req,res)=>{
     res.status(500).json({ error: 'Error al modificar un usuario' });
   }
 });
+router.post('/conseguirPublicaciones', async (req, res)=>{
+  try {
+    const { idusuario } = req.body;
+    const seguidores = await FuncionesSeguir.obtenerSeguidosPorNombre(idusuario);
+    console.log(seguidores)
+    //  for (const seguidor of seguidores) {
+    // }
+
+  } catch (error) {
+    
+  }
+})
 
 module.exports = router;

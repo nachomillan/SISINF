@@ -13,7 +13,12 @@ const SocialPage = () => {
   const openAddFriendsModal = () => {
     setShowAddFriendsModal(true);
   };
-
+  const handleKeyDown = (event) => {
+    // Cierra el modal si la tecla presionada es la tecla 'Esc' (código 27)
+    if (event.keyCode === 27) {
+      closeAddFriendsModal();
+    }
+  };
   const closeAddFriendsModal = () => {
     setShowAddFriendsModal(false);
   };
@@ -21,8 +26,8 @@ const SocialPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const body = { nombreusuario: localStorage.getItem('username') };
-        const response = await fetch('http://localhost:3001/user/seguidos', {
+        const body = { idusuario: localStorage.getItem('idUser') };
+        const response = await fetch('http://localhost:3001/user/social', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -30,15 +35,16 @@ const SocialPage = () => {
           body: JSON.stringify(body),
         });
         const parseRes = await response.json();
-        setFollowingCount(parseRes);
+        setFollowingCount(parseRes.seguidos);
+        setFollowersCount(parseRes.seguidores);
       } catch (error) {
         console.error('Error en la petición GET:', error);
       }
     };
-    const fetchData2 = async () => {
+    const fetchData3 = async () => {
       try {
-        const body = { nombreusuario: localStorage.getItem('username') };
-        const response = await fetch('http://localhost:3001/user/seguidores', {
+        const body = { idusuario: localStorage.getItem('idUser') };
+        const response = await fetch('http://localhost:3001/publicacion/conseguirPublicaciones', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -46,15 +52,14 @@ const SocialPage = () => {
           body: JSON.stringify(body),
         });
         const parseRes = await response.json();
-        setFollowersCount(parseRes);
+        console.log(parseRes)
       } catch (error) {
         console.error('Error en la petición GET:', error);
       }
     };
 
     fetchData(); // Llamamos a la función asíncrona dentro de useEffect
-    fetchData2(); // Llamamos a la función asíncrona dentro de useEffect
-
+    fetchData3();
     return () => {
       // Código de limpieza si es necesario
     };

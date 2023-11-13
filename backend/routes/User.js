@@ -64,44 +64,38 @@ router.post('/seguir', async (req, res) => {
 });
 router.post('/login', async (req, res) => {
   try {
-    console.log(req.body)
-    const { nombreusuario, contrasena} = req.body;
-    const validacionPorNombreYPassword = await FuncionesUsuario.validarUsuarioPorNombreYPassword(nombreusuario, contrasena)
-    console.log(nombreusuario, " ", contrasena)
+    console.log(req.body);
+    const { nombreusuario, contrasena } = req.body;
+    const validacionPorNombreYPassword = await FuncionesUsuario.validarUsuarioPorNombreYPassword(nombreusuario, contrasena);
+    console.log(nombreusuario, " ", contrasena);
 
-    if(validacionPorNombreYPassword){
-        console.log("logeado")
-        res.status(201).json("Logeado");
-    }else{
-        res.status(404).json("Incorrecto")
+    if (validacionPorNombreYPassword) {
+      const result = await FuncionesUsuario.buscarIdUsuarioPorNombre(nombreusuario);
+      console.log(result.iduser);
+      res.status(201).json(result.iduser);
+    } else {
+      res.status(404).json("Incorrecto");
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: 'Error al logear un usuario' });
   }
 });
-router.post('/seguidos', async (req, res) => {
+
+
+router.post('/social', async (req, res) => {
   try {
-    console.log(req.body)
-    const { nombreusuario} = req.body;
-    const seguidorid = await FuncionesUsuario.buscarIdUsuarioPorNombre(nombreusuario);
-    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidos(seguidorid.iduser)
-    res.status(201).json(cantidadSeguidos)
+    const { idusuario } = req.body;
+    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidos(idusuario);
+    const cantidadSeguidores = await FuncionesSeguir.obtenerSeguidores(idusuario);
+    const resultado = {
+      seguidos: cantidadSeguidos,
+      seguidores: cantidadSeguidores
+    };
+    res.status(201).json(resultado);
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: 'Error al logear un usuario' });
-  }
-});
-router.post('/seguidores', async (req, res) => {
-  try {
-    console.log(req.body)
-    const { nombreusuario} = req.body;
-    const seguidorid = await FuncionesUsuario.buscarIdUsuarioPorNombre(nombreusuario);
-    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidores(seguidorid.iduser)
-    res.status(201).json(cantidadSeguidos)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: 'Error al logear un usuario' });
+    console.log(error);
+    res.status(500).json({ error: 'Error al obtener seguidos y seguidores' });
   }
 });
 

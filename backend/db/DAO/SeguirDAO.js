@@ -83,6 +83,20 @@ async function obtenerSeguidores(iduser) {
         client.release();
     }
 }
+async function obtenerSeguidosPorNombre(iduser) {
+    const query = 'SELECT seguido_id FROM Seguir WHERE seguidor_id = $1';
+    const values = [iduser];
+    const client = await pool.connect();
+    try {
+        const result = await client.query(query, values);
+        return result.rows;
+
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 
 async function seguidores(id_usuario) {
     const query = 'SELECT * FROM seguir WHERE seguido_id = $1';
@@ -103,5 +117,6 @@ module.exports = {
     seguirUsuario,
     seSiguen,
     obtenerSeguidores,
-    obtenerSeguidos
+    obtenerSeguidos,
+    obtenerSeguidosPorNombre
 };
