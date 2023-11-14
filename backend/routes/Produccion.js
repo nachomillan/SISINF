@@ -5,11 +5,12 @@ const prod = require("../db/VO/ProduccionVO");
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
-    const { idapi, titulo, genero, agno, duracion, tipo, ntemporadas } = req.body;
+    console.log(req.body);
+    const { idapi, titulo, genero, agno, duracion, tipo, ntemporadas, imagen } = req.body;
     const validarProd = await FuncionesProduccion.buscarProduccionPorIdApi(idapi)
     if(validarProd == null){
-        const res = await FuncionesProduccion.crearProduccion(idapi, titulo, genero, agno, duracion, tipo, ntemporadas);
-        res.status(201).json(res);
+        const nuevaProd = await FuncionesProduccion.crearProduccion(idapi, titulo, genero, agno, duracion, tipo, ntemporadas, imagen);
+        res.status(201).json(nuevaProd);
       }else{
         res.status(201).json(validarProd);
       }

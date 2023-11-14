@@ -1,12 +1,10 @@
 /* SocialPage.css */
-
+/* Estilos CSS */
 .social-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f4f4f4;
-    padding: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
   
   .main-content {
     background-color: #ffffff;
@@ -85,3 +83,38 @@
   }
   
   /* Agrega más estilos según tus necesidades */
+
+
+
+.user-info {
+  margin-bottom: 20px;
+}
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.post {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.post-left {
+  flex: 1;
+}
+
+.post-right {
+  flex: 1;
+  padding: 15px;
+}
+
+.post img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px 0 0 8px;
+}

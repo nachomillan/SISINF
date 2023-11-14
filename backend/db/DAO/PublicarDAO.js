@@ -31,6 +31,20 @@ async function leerPublicacionPorId(id_publicacion) {
         client.release();
     }
 }
+async function obtenerPublicacionesPorId(iduser) {
+    const query = 'SELECT * FROM publicar WHERE iduserpublicar = $1';
+    const values = [iduser];
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(query, values);
+        return result.rows; // Devuelve la publicación encontrada
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 
 async function actualizarPublicacion(publicarVO) {
     const query = 'UPDATE publicaciones SET valoracion = $1, comentario = $2 WHERE id_publicacion = $3';
@@ -80,5 +94,6 @@ module.exports = {
     crearPublicacion,
     leerPublicacionPorId,
     actualizarPublicacion,
-    eliminarPublicacion
+    eliminarPublicacion,
+    obtenerPublicacionesPorId
 };

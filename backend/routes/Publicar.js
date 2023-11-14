@@ -72,9 +72,17 @@ router.post('/conseguirPublicaciones', async (req, res)=>{
   try {
     const { idusuario } = req.body;
     const seguidores = await FuncionesSeguir.obtenerSeguidosPorNombre(idusuario);
-    console.log(seguidores)
-    //  for (const seguidor of seguidores) {
-    // }
+     const resultados = [];
+
+    for (const seguidor of seguidores) {
+      console.log(seguidor.seguido_id)
+      // Realizar la llamada específica para cada seguidor
+      const publicaciones = await FuncionesPublicar.obtenerPublicacionesPorId(seguidor.seguido_id);
+      console.log(publicaciones)
+      resultados.push(...publicaciones);
+    }
+    resultados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    res.status(200).json(resultados);
 
   } catch (error) {
     

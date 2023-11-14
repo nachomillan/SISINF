@@ -103,7 +103,8 @@ router.post('/social', async (req, res) => {
 router.get('/:id', async (req,res) =>{
     try {
       const userId = req.params.id
-      const user = await FuncionesUsuario.buscarUsuario(userId);
+
+      const user = await FuncionesUsuario.buscarNombreUsuarioPorId(userId);
        if (user) {
       res.status(200).json(user);
     } else {

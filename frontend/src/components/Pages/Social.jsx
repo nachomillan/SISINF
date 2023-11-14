@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Menu from '../Menu';
 import MovieSearch from '../MovieSearch';
 import AddFriendsModal from '../AgnadirAmigos'; // Importa el nuevo componente
@@ -7,22 +7,50 @@ import '../Estilos/Social.css'; // Importa el archivo de estilos CSS
 const SocialPage = () => {
   const [followersCount, setFollowersCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const [posts, setPosts] = useState([])
+  const useEffectHasRun = useRef(false);
 
   const [showAddFriendsModal, setShowAddFriendsModal] = useState(false);
-
+  async function obtenerUrlDeImagen(id) {
+    try {
+       const response = await fetch(`http://localhost:3001/prod/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+          },
+        });
+      const data = await response.json();
+      console.log(data)
+      // Asume que la respuesta de la API tiene una propiedad "url" que contiene la URL de la imagen
+      return data;
+    } catch (error) {
+      console.error('Error al obtener la imagen:', error);
+      // Puedes lanzar una excepción, devolver una URL de imagen por defecto o tomar otra acción según tus necesidades
+      throw error;
+    }
+  }
+  async function obtenerNombreDeUsuario(id) {
+    try {
+       const response = await fetch(`http://localhost:3001/user/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+          },
+        });
+      const data = await response.json();
+      return data.nombreusuario;
+    } catch (error) {
+      console.error('Error al obtener la imagen:', error);
+      // Puedes lanzar una excepción, devolver una URL de imagen por defecto o tomar otra acción según tus necesidades
+      throw error;
+    }
+  }
   const openAddFriendsModal = () => {
     setShowAddFriendsModal(true);
-  };
-  const handleKeyDown = (event) => {
-    // Cierra el modal si la tecla presionada es la tecla 'Esc' (código 27)
-    if (event.keyCode === 27) {
-      closeAddFriendsModal();
-    }
   };
   const closeAddFriendsModal = () => {
     setShowAddFriendsModal(false);
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,20 +80,36 @@ const SocialPage = () => {
           body: JSON.stringify(body),
         });
         const parseRes = await response.json();
-        console.log(parseRes)
+        console.log(parseRes);
+          const postsConImagenes = await Promise.all(
+          parseRes.map(async (post) => {
+            try {
+              const data = await obtenerUrlDeImagen(post.idprodpublicar);
+              const _user = await obtenerNombreDeUsuario(post.iduserpublicar)
+              return { ...post, titulo: data.titulo, imagen : data.imagen , user:_user };
+            } catch (error) {
+              console.error('Error al obtener la imagen para la publicación:', error);
+            }
+          })
+        );
+        setPosts(postsConImagenes)
+
       } catch (error) {
         console.error('Error en la petición GET:', error);
       }
     };
+    if (!useEffectHasRun.current) {
+      fetchData(); // Llamamos a la función asíncrona dentro de useEffect
+      fetchData3();
+    // Tu código aquí
+    useEffectHasRun.current = true;
+  }
 
-    fetchData(); // Llamamos a la función asíncrona dentro de useEffect
-    fetchData3();
-    return () => {
-      // Código de limpieza si es necesario
-    };
-  }, []);
+  }, [posts]);
 
-  return (
+
+
+   return (
     <div className="social-page">
       <MovieSearch />
       <Menu />
@@ -84,7 +128,19 @@ const SocialPage = () => {
           <h1>Red Social de Películas</h1>
         </div>
         <div className="posts">
-          {/* ... */}
+          {posts.map((post) => (
+            <div key={post.idpublicar} className="post">
+              <div className="post-left">
+                <img src={post.imagen} alt={`Foto del usuario ${post.idusuario}`} />
+              </div>
+              <div className="post-right">
+                <h3>{post.titulo}</h3>
+                <p>{post.comentario}</p>
+                <p>Valoración: {post.valoracion} estrellas</p>
+                <p>Usuario: {post.user}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       {showAddFriendsModal && <AddFriendsModal onClose={closeAddFriendsModal} />}

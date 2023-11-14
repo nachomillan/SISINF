@@ -84,7 +84,7 @@ async function obtenerSeguidores(iduser) {
     }
 }
 async function obtenerSeguidosPorNombre(iduser) {
-    const query = 'SELECT seguido_id FROM Seguir WHERE seguidor_id = $1';
+    const query = 'SELECT DISTINCT seguido_id FROM Seguir WHERE seguidor_id = $1';
     const values = [iduser];
     const client = await pool.connect();
     try {

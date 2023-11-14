@@ -7,14 +7,13 @@ function MovieSearch() {
     const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const apiKey = 'k_sat3m0dj'; // Reemplaza con tu clave de API
 
   const handleSearch = async () => {
     const url = `https://online-movie-database.p.rapidapi.com/auto-complete?q=${searchQuery}`;
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': '7dd80bde07msh88ad6b073887de1p14a7c1jsna825d0f3ff22',
+        'X-RapidAPI-Key': '48ae2480a4msh6d2031485ea1a36p11f14bjsn2a0c39c5d01a',
         'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com',
       },
     };

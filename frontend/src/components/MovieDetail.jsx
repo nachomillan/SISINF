@@ -16,7 +16,7 @@ function MovieDetail() {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': '7dd80bde07msh88ad6b073887de1p14a7c1jsna825d0f3ff22',
+                'X-RapidAPI-Key': '48ae2480a4msh6d2031485ea1a36p11f14bjsn2a0c39c5d01a',
                 'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com'
             }
         };
@@ -42,7 +42,7 @@ function MovieDetail() {
     const realizarCalificacion = async (e) => {
         e.preventDefault();
         try {
-            const body = { idapi:id, titulo:  movieData.title.title , genero:movieData.genres[0], agno:movieData.title.year, duracion:movieData.title.runningTimeInMinutes, tipo:0, ntemporadas: 0};
+            const body = { idapi:id, titulo:  movieData.title.title , genero:movieData.genres[0], agno:movieData.title.year, duracion:movieData.title.runningTimeInMinutes, tipo:0, ntemporadas: 0, imagen:movieData.title.image.url};
             const response = await fetch('http://localhost:3001/prod', {
             method: 'POST',
             headers: {
@@ -51,7 +51,8 @@ function MovieDetail() {
             body: JSON.stringify(body),
             });
             const resIdProd = await response.json();
-            const idProdInt = parseInt(resIdProd.idprod, 10); 
+            const idProdInt = parseInt(resIdProd.idprod, 10);
+            console.log(resIdProd)
             const currentDateTime = new Date().toISOString();
             const body2 = {iduserpublicar:localStorage.getItem('username'), idprodpublicar:idProdInt, valoracion:rating, comentario:comment, fecha:currentDateTime};
             const response2 = await fetch('http://localhost:3001/publicacion', {

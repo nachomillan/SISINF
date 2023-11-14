@@ -73,6 +73,20 @@ const usuarioVO = require('../VO/UsuarioVO');
         client.release();
     }
     }
+    async function buscarNombreUsuarioPorId(idUser) {
+    const query = 'SELECT nombreusuario FROM usuario WHERE iduser = $1';
+    const client = await pool.connect();
+    const values = [idUser];
+    try {
+        const result = await client.query(query, values);
+        return result.rows[0];
+    } catch (error) {
+        console.log("error de la conexion  ")
+        throw error;
+    } finally {
+        client.release();
+    }
+    }
     async function buscarUsuario(idUser) {
         const query = 'SELECT * FROM usuario WHERE iduser = $1';
         const client = await pool.connect();
@@ -129,4 +143,5 @@ const usuarioVO = require('../VO/UsuarioVO');
 
 
     module.exports = {crearUsuario, validarUsuarioPorNombre,validarUsuarioPorCorreo, buscarUsuario, eliminarUsuario, actualizarContraseña, validarUsuarioPorNombreYPassword,
-    buscarIdUsuarioPorNombre}
+    buscarIdUsuarioPorNombre,
+buscarNombreUsuarioPorId}

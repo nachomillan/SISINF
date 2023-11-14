@@ -19,14 +19,15 @@ CREATE TABLE Lista (
     FOREIGN KEY (usuario_id) REFERENCES Usuario(idUser)
 );
 CREATE TABLE Produccion (
-    idProd SERIAL PRIMARY KEY,
+    idprod SERIAL PRIMARY KEY,
+    idapi VARCHAR NOT NULL,
     titulo VARCHAR NOT NULL,
-    valoracion INTEGER NOT NULL,
     genero VARCHAR NOT NULL, 
-    agno INTEGER(4) NOT NULL,
-    duracion INTEGER(3) NOT NULL,
+    agno INTEGER NOT NULL,
+    duracion INTEGER NOT NULL,
     tipo VARCHAR NOT NULL,
-    ntemporadas INTEGER(2),
+    ntemporadas INTEGER,
+    imagen VARCHAR
 );
 CREATE TABLE Publicar (
     idUserPublicar INTEGER,
