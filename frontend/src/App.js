@@ -4,11 +4,11 @@ import './App.css';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import MovieDetail from './components/MovieDetail';
-import MovieSearch from './components/MovieSearch'; // Asegúrate de ajustar la importación según la ubicación de tu componente
-import Menu from './components/Menu'; // Asegúrate de ajustar la importación según la ubicación de tu componente
 import PaginaPrincipal from './components/Pages/PaginaPrincipal';
 import SignUp from './components/Signup';
 import Social from './components/Pages/Social'
+import MisListas from './components/Pages/MisListas';
+import MisListasDetail from './components/Pages/MisListasDetail';
 
 
 function App() {
@@ -23,6 +23,8 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/movies/:id" element={<MovieDetail />} />
               <Route path="/social" element={<Social/>} />
+              <Route path="/mis-listas" element={<MisListas/>} />
+              <Route path="/mis-listas/:id" element={<MisListasDetail/>} />
             </Routes>
           {/* </div>
         </div>

@@ -7,6 +7,7 @@ app.use(cors())
 const userRoutes = require('./routes/User')
 const prodRoutes = require('./routes/Produccion')
 const publicacionRoutes = require('./routes/Publicar')
+const listasRoutes = require('./routes/Listas')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/user', userRoutes)
 app.use('/prod', prodRoutes)
 app.use('/publicacion', publicacionRoutes)
+app.use('/listas', listasRoutes)
 app.use('/', (req, res) =>{
   res.send("hello WOrld!");
 })

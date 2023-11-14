@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './Estilos/MovieDetail.css'; // Importa tu archivo de estilos CSS
+import AgnadirAListas from './AgnadirAListas'
 import StarRating from './StarRating';
 
 function MovieDetail() {
@@ -10,6 +11,7 @@ function MovieDetail() {
     const [movieData, setMovieData] = useState({});
     const [rating, setRating] = useState(0); // Estado para la calificación
     const [comment, setComment] = useState("");
+    const [showAgregarListas, setShowAgregarListas] = useState(false);
     
     const busquedaPeli = async () => {
         const url = `https://online-movie-database.p.rapidapi.com/title/get-overview-details?tconst=${id}&currentCountry=US`;
@@ -76,43 +78,53 @@ function MovieDetail() {
     useEffect(() => {
         busquedaPeli();
     }, []);
-
-    return (
-        <div className="movie-detail-container">
-            <div className="column-left">
-                <img
-                    src={movieData.title && movieData.title.image && movieData.title.image.url}
-                    alt={movieData.title && movieData.title.title}
-                    className="movie-image2"
-                />
-                <div className="genres">
-                    {movieData.genres && movieData.genres.map((genre, index) => (
-                        <span key={index} className="genre">{genre}</span>
-                    ))}
-                </div>
-            </div>
-            <div className="column-right">
-                <h1>{movieData.title && movieData.title.title}</h1>
-                <p>Director: {movieData.director}</p>
-                <p>Año de estreno: {movieData.title && movieData.title.year}</p>
-                <p>Duración: {movieData.title && movieData.title.runningTimeInMinutes} minutos</p>
-                <p>{movieData.plotOutline && movieData.plotOutline.text}</p>
-
-                {/* Formulario de calificación y comentario */}
-                <form onSubmit={realizarCalificacion}>
-                    <div className="rating">
-                        <StarRating rating={rating} onRatingChange={handleRatingChange} />
-                    </div>
-                    <textarea
-                        placeholder="Deja tu comentario"
-                        value={comment}
-                        onChange={handleCommentChange}
-                    />
-                    <button type="submit">Calificar</button>
-                </form>
+    const openAgregarAListas = () => {
+        setShowAgregarListas(true);
+    };
+    const closeAgregarAListas = () => {
+        setShowAgregarListas(false);
+    };
+   return (
+    <div className="movie-detail-container">
+        <div className="column-left">
+            <img
+                src={movieData.title && movieData.title.image && movieData.title.image.url}
+                alt={movieData.title && movieData.title.title}
+                className="movie-image2"
+            />
+            <div className="genres">
+                {movieData.genres && movieData.genres.map((genre, index) => (
+                    <span key={index} className="genre">{genre}</span>
+                ))}
             </div>
         </div>
-    );
+        <div className="column-right">
+            <h1>{movieData.title && movieData.title.title}</h1>
+            <p>Director: {movieData.director}</p>
+            <p>Año de estreno: {movieData.title && movieData.title.year}</p>
+            <p>Duración: {movieData.title && movieData.title.runningTimeInMinutes} minutos</p>
+            <p>{movieData.plotOutline && movieData.plotOutline.text}</p>
+
+            {/* Formulario de calificación y comentario */}
+            <form onSubmit={realizarCalificacion}>
+                <div className="rating">
+                    <StarRating rating={rating} onRatingChange={handleRatingChange} />
+                </div>
+                <textarea
+                    placeholder="Deja tu comentario"
+                    value={comment}
+                    onChange={handleCommentChange}
+                />
+                <button type="submit">Calificar</button>
+            </form>
+
+            {/* Botón "Añadir a listas" */}
+            <button onClick={openAgregarAListas}>Añadir a listas</button>
+            {showAgregarListas && <AgnadirAListas onClose={closeAgregarAListas} id={id} />}
+        </div>
+    </div>
+);
+
 }
 
 export default MovieDetail;

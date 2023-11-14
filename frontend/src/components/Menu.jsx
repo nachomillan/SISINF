@@ -19,10 +19,13 @@ function Menu() {
   const navigateToSocialPage = () => {
     navigate('/social');
   };
+  const navigateToMisListas = () => {
+    navigate('/mis-listas');
+  };
 
   return (
     <div className="barra-horizontal">
-      <div className="mis-listas">
+      <div className="mis-listas" onClick={navigateToMisListas}>
         <i className="icono-mis-listas">&#9776;</i> MIS LISTAS
       </div>
 

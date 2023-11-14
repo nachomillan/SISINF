@@ -13,7 +13,7 @@ CREATE TABLE Seguir (
     FOREIGN KEY (seguido_id) REFERENCES Usuario(idUser)
 );
 CREATE TABLE Lista (
-    idLista INTEGER PRIMARY KEY,
+    idLista SERIAL PRIMARY KEY,
     nombre VARCHAR,
     usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(idUser)

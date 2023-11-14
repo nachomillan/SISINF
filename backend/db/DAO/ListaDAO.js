@@ -1,24 +1,8 @@
-const client = require('./ConnectionManager');
+const pool = require('./ConnectionManager');
 const usuarioVO = require('../VO/UsuarioVO')
-    async function crearUsuario(usuarioVO) {
-        const query = 'INSERT INTO usuario (nombreUsuario, foto, correo, contraseña) VALUES ($1, $2, $3, $4)';
-        const values = [usuarioVO.getNombreUsuario(), usuarioVO.getFoto(), usuarioVO.getCorreo(), usuarioVO.getContraseña()];
-        try {
-            client.connect()
-            const result = await client.query(query, values);
-            return result.rows[0]; // Devuelve el nuevo usuario creado
-        } catch (error) {
-            throw error;
-        } finally{
-            client.end()
-        }
-    }
-    async function crearLista(listaVO) {
-        const query = 'INSERT INTO listas_peliculas (nombre, usuario_id) VALUES ($1, $2) RETURNING id_lista';
-        const values = [
-            listaVO.getNombre(),
-            listaVO.getUsuarioId()
-        ];
+    async function crearLista(nombreLista, idusuario) {
+        const query = 'INSERT INTO lista (nombre, usuario_id) VALUES ($1, $2) RETURNING idlista';
+        const values = [nombreLista, idusuario];
         const client = await pool.connect();
         try {
             const result = await client.query(query, values);
@@ -29,6 +13,52 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.release();
         }
     }
+    async function existeLista(nombreLista, idusuario) {
+        const query = 'SELECT * FROM Lista WHERE usuario_id = $2 AND nombre = $1';
+        const values = [nombreLista, idusuario];
+        const client = await pool.connect();
+
+        try {
+            const result = await client.query(query, values);
+            // Devuelve true si hay al menos un resultado, lo que significa que la lista existe
+            return result.rows.length > 0;
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    async function conseguirListas(idusuario) {
+        const query = 'SELECT * FROM Lista WHERE usuario_id = $1';
+        const values = [idusuario];
+        const client = await pool.connect();
+
+        try {
+            const result = await client.query(query, values);
+            // Devuelve true si hay al menos un resultado, lo que significa que la lista existe
+            return result.rows;
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    async function conseguirPelisdeListas(idusuario) {
+        const query = 'SELECT * FROM Lista WHERE usuario_id = $1';
+        const values = [idusuario];
+        const client = await pool.connect();
+
+        try {
+            const result = await client.query(query, values);
+            // Devuelve true si hay al menos un resultado, lo que significa que la lista existe
+            return result.rows;
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+
     async function eliminarLista(id_lista) {
         const query = 'DELETE FROM listas_peliculas WHERE id_lista = $1';
         const values = [id_lista];
@@ -47,5 +77,5 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.release();
         }
     }
-    module.exports = {crearUsuario,
-                     crearLista};
+    module.exports = {crearLista,
+                     existeLista,conseguirListas};
