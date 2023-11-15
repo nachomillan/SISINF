@@ -1,12 +1,9 @@
 const { Pool } = require('pg');
 const pool = require('./ConnectionManager');
 
-async function crearPertenencia(PertenecerVO) {
-    const query = 'INSERT INTO publicaciones (iduser_publicar, idprod_publicar) VALUES ($1, $2) RETURNING id_pertenencia';
-    const values = [
-        PertenecerVO.getIdUserPertenecer(),
-        PertenecerVO.getIdProdPertenecer(),
-    ];
+async function crearPertenencia(idProd, idLista) {
+    const query = 'INSERT INTO pertenecer (idprodpertenecer, idlistapertenecer) VALUES ($1, $2)';
+    const values = [idProd, idLista];
     const client = await pool.connect();
 
     try {

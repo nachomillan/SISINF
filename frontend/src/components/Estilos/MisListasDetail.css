@@ -1,0 +1,45 @@
+/* MisListasDetail.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.movieList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.movieItem {
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.movieImage {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.movieDetails {
+    padding: 10px;
+}
+
+.movieTitle {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* Ajusta los estilos según tus necesidades */

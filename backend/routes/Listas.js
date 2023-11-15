@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const FuncionesListas = require("../db/DAO/ListaDAO");
-
+const FuncionesPertenecer = require("../db/DAO/PertenecerDAO")
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
@@ -16,6 +16,18 @@ router.post('/', async (req, res) => {
         res.status(404).json("Ya existe una lista con este nombre")
     }
 
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Error al crear lista' });
+
+  }
+});
+router.post('/agnadirPeliALista', async (req, res) => {
+  try {
+    const { idLista, idProd} = req.body;
+    const agnadir = await FuncionesPertenecer.crearPertenencia(idProd, idLista)
+    console.log(agnadir)
+    res.status(201).json("Agnadida")
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Error al crear lista' });
@@ -39,8 +51,9 @@ router.get('/:id', async (req,res) =>{
 });
 router.get('/pelis/:id', async (req,res) =>{
     try {
-      const userId = req.params.id
-      const listas = await FuncionesListas.conseguirPelisdeListas(userId);
+      const listaId = req.params.id
+      console.log(listaId)
+      const listas = await FuncionesListas.conseguirPelisdeListas(listaId);
       console.log(listas)
       if (listas) {
         res.status(200).json(listas);

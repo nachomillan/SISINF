@@ -25,7 +25,7 @@ function MisListas() {
   }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez al montar el componente
 
   const handleSerieClick = (serieId) => {
-    navigate(`/listas/${serieId}`);
+    navigate(`/mis-listas/${serieId}`);
   };
 
   return (

@@ -120,7 +120,7 @@ function MovieDetail() {
 
             {/* Botón "Añadir a listas" */}
             <button onClick={openAgregarAListas}>Añadir a listas</button>
-            {showAgregarListas && <AgnadirAListas onClose={closeAgregarAListas} id={id} />}
+            {showAgregarListas && <AgnadirAListas onClose={closeAgregarAListas} idapi={id} titulo={movieData.title.title} genero={movieData.genres[0]} agno={movieData.title.year} duracion={movieData.title.runningTimeInMinutes} tipo={0} ntemporadas={0} imagen={movieData.title.image.url} />}
         </div>
     </div>
 );

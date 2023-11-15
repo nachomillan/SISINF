@@ -43,9 +43,9 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.release();
         }
     }
-    async function conseguirPelisdeListas(idusuario) {
-        const query = 'SELECT * FROM Lista WHERE usuario_id = $1';
-        const values = [idusuario];
+    async function conseguirPelisdeListas(idLista) {
+        const query = 'SELECT * FROM pertenecer WHERE idListaPertenecer = $1';
+        const values = [idLista];
         const client = await pool.connect();
 
         try {
@@ -78,4 +78,4 @@ const usuarioVO = require('../VO/UsuarioVO')
         }
     }
     module.exports = {crearLista,
-                     existeLista,conseguirListas};
+                     existeLista,conseguirListas, conseguirPelisdeListas};
