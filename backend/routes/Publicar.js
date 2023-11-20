@@ -6,14 +6,17 @@ const FuncionesSeguir = require("../db/DAO/SeguirDAO");
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
-    console.log(req.body)
     const { iduserpublicar, idprodpublicar, valoracion, comentario, fecha} = req.body;
-    const userId = await FuncionesUsuario.buscarIdUsuarioPorNombre(iduserpublicar);
-    const newPublicacion = await FuncionesPublicar.crearPublicacion(userId.iduser, idprodpublicar, valoracion, comentario, fecha);
-    if(newPublicacion){
-        res.status(201).json(newPublicacion);
+    const existePub = await FuncionesPublicar.existePub(iduserpublicar, idprodpublicar)
+    if(!existePub){
+      const newPublicacion = await FuncionesPublicar.crearPublicacion(iduserpublicar, idprodpublicar, valoracion, comentario, fecha);
+      if(newPublicacion){
+          res.status(201).json(newPublicacion);
+      }else{
+          res.status(404).json("Error en algun campo")
+        }
     }else{
-        res.status(404).json("Error en algun campo")
+        res.status(404).json("Esta produccion ya ha sido calificada")
     }
   } catch (error) {
     console.log(error)
@@ -83,6 +86,18 @@ router.post('/conseguirPublicaciones', async (req, res)=>{
     }
     resultados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     res.status(200).json(resultados);
+
+  } catch (error) {
+    
+  }
+})
+router.get('/conseguirMisPublicaciones/:id', async (req, res)=>{
+  try {
+    console.log("hola")
+    const  idUser = req.params.id;
+    const publicaciones = await FuncionesPublicar.obtenerPublicacionesPorId(idUser);
+    console.log(publicaciones)
+    res.status(200).json(publicaciones);
 
   } catch (error) {
     

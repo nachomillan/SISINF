@@ -6,15 +6,21 @@
     align-items: center;
     background-color: #333; /* Color de fondo de la barra */
     color: #fff; /* Color del texto */
-    padding: 10px;
+    /* padding: 10px; */
   }
   
   .mis-listas, .crear-lista, .social {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
     font-size: 18px;
   }
+ .mis-listas:hover,
+ .crear-lista:hover,
+ .social:hover {
+    background-color: #281a1a;
+      /* Color de fondo de la barra */
+ }
   
   .icono-mis-listas {
     font-size: 24px;

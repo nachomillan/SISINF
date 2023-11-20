@@ -48,8 +48,30 @@ input[type="text"] {
   padding: 10px;
   border-radius: 5px;
 }
+.seguir {
+  background: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.seguir button {
+  background: rgb(9, 177, 12);
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
 
-button {
+.seguir button:hover {
+  background: rgb(23, 116, 24);
+}
+
+.buscar {
   background: #007bff;
   color: #fff;
   border: none;
@@ -73,3 +95,13 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+.confirmation-message {
+  color: green;
+  font-weight: bold;
+}
+
+.warning-message {
+  color: red;
+  font-weight: bold;
+}
+

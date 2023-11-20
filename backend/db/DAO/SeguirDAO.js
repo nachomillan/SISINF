@@ -65,6 +65,38 @@ async function obtenerSeguidos(iduser) {
         client.release();
     }
 }
+async function obtenerSeguidosPorId(iduser) {
+ const query = 'SELECT seguidor_id, seguido_id FROM seguir WHERE seguidor_id = $1 GROUP BY seguidor_id, seguido_id';
+    const values = [iduser];
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(query, values);
+            return result.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+async function obtenerSeguidos(iduser) {
+ const query = 'SELECT seguidor_id, COUNT(seguidor_id) AS cantidad FROM seguir WHERE seguidor_id = $1 GROUP BY seguidor_id';
+    const values = [iduser];
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(query, values);
+        if (result.rows.length > 0) {
+            return result.rows[0].cantidad;
+        } else {
+            return 0;
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 async function obtenerSeguidores(iduser) {
  const query = 'SELECT seguido_id, COUNT(seguido_id) AS cantidad FROM seguir WHERE seguido_id = $1 GROUP BY seguido_id';
     const values = [iduser];
@@ -112,11 +144,27 @@ async function seguidores(id_usuario) {
         client.release();
     }
 }
+async function dejarDeSeguir(idusuario, friend) {
+    const query = 'DELETE FROM seguir where seguidor_id = $1 and seguido_id = $2';
+    const values = [idusuario, friend];
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(query, values);
+        return result.rows; 
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 
 module.exports = {
     seguirUsuario,
     seSiguen,
     obtenerSeguidores,
     obtenerSeguidos,
-    obtenerSeguidosPorNombre
+    obtenerSeguidosPorNombre,
+    obtenerSeguidosPorId,
+    dejarDeSeguir
 };

@@ -8,6 +8,8 @@ import PaginaPrincipal from './components/Pages/PaginaPrincipal';
 import SignUp from './components/Signup';
 import Social from './components/Pages/Social'
 import MisListas from './components/Pages/MisListas';
+import PerfilUsuario from './components/Pages/PerfilUsuario';
+import AjustesUsuario from './components/AjustesUsuario';
 import MisListasDetail from './components/Pages/MisListasDetail';
 
 
@@ -23,6 +25,8 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/movies/:id" element={<MovieDetail />} />
               <Route path="/social" element={<Social/>} />
+              <Route path="/usuario/:id" element={<PerfilUsuario/>} />
+              <Route path="/usuario/ajustes/:id" element={<AjustesUsuario/>} />
               <Route path="/mis-listas" element={<MisListas/>} />
               <Route path="/mis-listas/:id" element={<MisListasDetail/>} />
             </Routes>

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Estilos/AgnadirAListas.css';
 
 function AgnadirAListas({ onClose, idapi, titulo, genero, agno,duracion, tipo, ntemporadas, imagen}) {
-  const navigate = useNavigate();
   const [listas, setListas] = useState([]);
   const [error, setError] = useState(null);
 
@@ -47,10 +45,13 @@ function AgnadirAListas({ onClose, idapi, titulo, genero, agno,duracion, tipo, n
       });
       const conf = await response2.json();
       console.log(conf)
-      if(conf === "agnadida"){
+      if(conf === "Agnadida"){
+         setTimeout(() => {
+            onClose();
+          }, 1000);
         onClose()
       }else{
-
+        setError(conf)
       }
   }
   return (

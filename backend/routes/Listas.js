@@ -64,5 +64,27 @@ router.get('/pelis/:id', async (req,res) =>{
     res.status(500).json({ error: 'Error al buscar listas' });
   }
 });
+router.delete('/:idlista/:idprod', async (req,res) =>{
+    try {
+      const idLista = req.params.idlista;
+      const idProducto = req.params.idprod;
+      const listas = await FuncionesListas.eliminarPeliDeLista(idLista, idProducto);
+      console.log(listas)
+        res.status(200).json("eliminado");
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar peli de listas' });
+  }
+});
+router.delete('/:id', async (req,res) =>{
+    try {
+      const listaId = req.params.id
+      const listas = await FuncionesListas.eliminarTodoDeUnaLista(listaId);
+      const listasD = await FuncionesListas.eliminarLista(listaId);
+      console.log(listas)
+      res.status(200).json("eliminado");
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar peli de listas' });
+  }
+});
 
 module.exports = router;

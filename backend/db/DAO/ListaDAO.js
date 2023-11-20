@@ -77,5 +77,47 @@ const usuarioVO = require('../VO/UsuarioVO')
             client.release();
         }
     }
+    async function eliminarPeliDeLista(id_lista, idProd) {
+        const query = 'DELETE FROM pertenecer WHERE idlistapertenecer = $1 and idprodpertenecer = $2 ';
+        const values = [id_lista, idProd];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            console.log(result)
+            return result.rows[0]
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    async function eliminarTodoDeUnaLista(id_lista) {
+        const query = 'DELETE FROM pertenecer WHERE idlistapertenecer = $1';
+        const values = [id_lista];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            console.log(result)
+            return result.rows[0]
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+    async function eliminarLista(id_lista) {
+        const query = 'DELETE FROM lista WHERE idlista = $1';
+        const values = [id_lista];
+        const client = await pool.connect();
+        try {
+            const result = await client.query(query, values);
+            console.log(result)
+            return result.rows[0]
+        } catch (error) {
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
     module.exports = {crearLista,
-                     existeLista,conseguirListas, conseguirPelisdeListas};
+                     existeLista,conseguirListas, conseguirPelisdeListas, eliminarPeliDeLista, eliminarTodoDeUnaLista, eliminarLista};

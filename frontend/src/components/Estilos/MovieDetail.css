@@ -44,6 +44,7 @@
 }
 
 h2 {
+    color: #333;
     font-size: 24px;
 }
 h1 {
@@ -51,6 +52,7 @@ h1 {
 }
 
 p {
+    color: black;
     margin: 10px 0;
     font-size: 24px;
 }
@@ -64,4 +66,20 @@ p {
 .rating button {
     margin-top: 10px;
     /* Espacio entre las estrellas y el botón */
+}
+.success-message,
+.error-message {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.success-message {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.error-message {
+    background-color: #f44336;
+    color: white;
 }

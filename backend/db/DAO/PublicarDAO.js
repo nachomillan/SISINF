@@ -45,30 +45,22 @@ async function obtenerPublicacionesPorId(iduser) {
         client.release();
     }
 }
-
-async function actualizarPublicacion(publicarVO) {
-    const query = 'UPDATE publicaciones SET valoracion = $1, comentario = $2 WHERE id_publicacion = $3';
-    const values = [
-        publicarVO.getValoracion(),
-        publicarVO.getComentario(),
-        publicarVO.getIdPublicacion()
-    ];
+async function existePub(userId, idprodpublicar) {
+    const query = 'SELECT COUNT(*) FROM publicar WHERE iduserpublicar = $1 AND idprodpublicar = $2';
+    const values = [userId, idprodpublicar];
     const client = await pool.connect();
 
     try {
         const result = await client.query(query, values);
-        // Verificar si se actualizó algún registro
-        if (result.rowCount > 0) {
-            return true; // Indica que la publicación se actualizó con éxito
-        } else {
-            return false; // Indica que no se encontró la publicación para actualizar
-        }
+        const rowCount = result.rows[0].count;
+        return rowCount > 0;
     } catch (error) {
         throw error;
     } finally {
         client.release();
     }
 }
+
 
 async function eliminarPublicacion(id_publicacion) {
     const query = 'DELETE FROM publicaciones WHERE id_publicacion = $1';
@@ -93,7 +85,7 @@ async function eliminarPublicacion(id_publicacion) {
 module.exports = {
     crearPublicacion,
     leerPublicacionPorId,
-    actualizarPublicacion,
     eliminarPublicacion,
-    obtenerPublicacionesPorId
+    obtenerPublicacionesPorId,
+    existePub
 };

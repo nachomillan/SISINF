@@ -86,6 +86,7 @@ router.post('/login', async (req, res) => {
 router.post('/social', async (req, res) => {
   try {
     const { idusuario } = req.body;
+    console.log(idusuario)
     const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidos(idusuario);
     const cantidadSeguidores = await FuncionesSeguir.obtenerSeguidores(idusuario);
     const resultado = {
@@ -98,6 +99,54 @@ router.post('/social', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener seguidos y seguidores' });
   }
 });
+router.get('/seguidos/:id', async (req, res) => {
+  try {
+    const idUser = req.params.id;
+    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidosPorId(idUser);
+
+    // Utiliza Promise.all para esperar que todas las promesas se completen
+    const resultados = await Promise.all(cantidadSeguidos.map(async (seguido) => {
+      const usuario = await FuncionesUsuario.buscarNombreUsuarioPorId(seguido.seguido_id);
+      return {
+        idusuario: seguido.seguido_id,
+        nombreusuario: usuario.nombreusuario
+      };
+    }));
+
+    console.log(resultados);
+    
+    // Envía la respuesta al cliente con los resultados
+    res.status(201).json(resultados);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener seguidos y seguidores' });
+  }
+});
+router.get('/seguidores/:id', async (req, res) => {
+  try {
+    const idUser = req.params.id;
+    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidosPorId(idUser);
+
+    // Utiliza Promise.all para esperar que todas las promesas se completen
+    const resultados = await Promise.all(cantidadSeguidos.map(async (seguido) => {
+      const usuario = await FuncionesUsuario.buscarNombreUsuarioPorId(seguido.seguido_id);
+      return {
+        idusuario: seguido.seguido_id,
+        nombreusuario: usuario.nombreusuario
+      };
+    }));
+
+    console.log(resultados);
+    
+    // Envía la respuesta al cliente con los resultados
+    res.status(201).json(resultados);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener seguidos y seguidores' });
+  }
+});
+
+
 
 // Ruta para obtener un usuario por su ID
 router.get('/:id', async (req,res) =>{
@@ -116,22 +165,46 @@ router.get('/:id', async (req,res) =>{
 });
 
 // Ruta para actualizar un usuario por su ID
-router.put('/:id', async(req,res)=>{
+router.get('/datos/:id', async(req,res)=>{
   try {
     const  idUser = req.params.id
-    console.log(idUser)
-    console.log("hola")
-    const user = await FuncionesUsuario.buscarUsuario(idUser);
-       if (user) {
-      res.status(200).json(user);
-    } else {
-      res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-    nuevo = new UsuarioVO(_idUser, _nombreUsuario, _foto, _correo, _contraseña)
+    
+    const user = await FuncionesUsuario.datosUsuario(idUser);
+    res.status(201).json(user);
 
   } catch (error) {
     res.status(500).json({ error: 'Error al modificar un usuario' });
   }
 });
+// Ruta para actualizar un usuario por su ID
+router.put('/', async(req,res)=>{
+  console.log("Hola")
+  try {
+    console.log(req.body)
+    const { idusuario, password } = req.body;
+    console.log(idusuario, password )
+
+    const user = await FuncionesUsuario.actualizarContrasena(idusuario, password);
+       if (user) {
+      res.status(200).json("Exito");
+    } else {
+      res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+router.post('/dejar-de-seguir', async (req, res) => {
+  try {
+    const { idusuario, friend } = req.body;
+    console.log(req.body)
+    const cantidadSeguidos = await FuncionesSeguir.dejarDeSeguir(idusuario, friend);
+    res.status(201).json("'dejado de seguir'");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error al obtener seguidos y seguidores' });
+  }
+});
+
 
 module.exports = router;
