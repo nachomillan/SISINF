@@ -19,7 +19,6 @@ async function leerProduccionPorId(id_produccion) {
     const query = 'SELECT * FROM produccion WHERE idprod = $1';
     const values = [id_produccion];
     const client = await pool.connect();
-
     try {
         const result = await client.query(query, values);
         return result.rows[0];

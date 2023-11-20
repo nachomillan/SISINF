@@ -1,12 +1,25 @@
 /* Navegador.css */
 
 .Navegador-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ff8000; /* Color de fondo de la barra */
-    color: #fff; /* Color del texto */
-    padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fd5a18;
+  /* Color de fondo de la barra */
+  color: #fff;
+  /* Color del texto */
+  padding: 10px;
+}
+
+.logo-container {
+  cursor: pointer;
+}
+
+.logo {
+  width: 150px;
+  /* Ajusta el tamaño de la imagen según sea necesario */
+  height: 60px;
+  /* Si es necesario, agrega bordes redondeados a la imagen */
 }
 
 .icon {
@@ -15,7 +28,7 @@
   margin: 0 10px;
 }
 
-.iniciar-sesion{
+.iniciar-sesion {
   font-size: 20px;
   color: #fff;
 }

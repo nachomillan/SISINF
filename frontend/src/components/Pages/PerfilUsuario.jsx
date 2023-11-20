@@ -76,12 +76,12 @@ const PerfilUsuario = () => {
       }
     };
   useEffect(() => {
-    if (!useEffectHasRun.current) {
+    // if (!useEffectHasRun.current) {
       fetchData(); // Llamamos a la función asíncrona dentro de useEffect
       fetchData3();
     // Tu código aquí
-    useEffectHasRun.current = true;
-  }
+    //   useEffectHasRun.current = true;
+    // }
   }, []);
 
 

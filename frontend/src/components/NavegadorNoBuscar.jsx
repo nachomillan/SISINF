@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome, FaUser } from 'react-icons/fa';
 import './Estilos/Navegador.css';
-
+const logo = require('../images/logo.jpeg')
 function NavegadorNoBusqueda({ onSearch }) {
   const iconSize = 40;
   const navigate = useNavigate();
@@ -21,11 +21,17 @@ function NavegadorNoBusqueda({ onSearch }) {
 
   return (
     <div className="Navegador-container">
-      <FaHome className="icon" size={iconSize} onClick={handleHomeClick} />
+      {/* Logo */}
+      <div className="logo-container" onClick={handleHomeClick}>
+        <img src={logo} alt="Logo" className="logo" />
+      </div>
+
       {isLoggedIn ? (
         <FaUser className="icon" size={iconSize} onClick={handleUserProfileClick} />
       ) : (
-        <p className='iniciar-sesion' onClick={handleIniciarSesionClick}>Iniciar Sesión</p>
+        <p className="iniciar-sesion" onClick={handleIniciarSesionClick}>
+          Iniciar Sesión
+        </p>
       )}
     </div>
   );
