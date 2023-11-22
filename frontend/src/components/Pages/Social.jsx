@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect/* , useRef */ } from 'react';
 import Menu from '../Menu';
 import NavegadorNoBuscar from '../NavegadorNoBuscar';
 import AddFriendsModal from '../AgnadirAmigos'; // Importa el nuevo componente
@@ -12,7 +12,7 @@ const SocialPage = () => {
   const [followingCount, setFollowingCount] = useState(0);
   const [posts, setPosts] = useState([])
   const [error, setError] = useState('')
-  const useEffectHasRun = useRef(false);
+  // const useEffectHasRun = useRef(false);
   const navigate = useNavigate();
   const [showAddFriendsModal, setShowAddFriendsModal] = useState(false);
   const [showSeguidores, setShowSeguidores] = useState(false);
@@ -87,6 +87,7 @@ const SocialPage = () => {
             body: JSON.stringify(body),
           });
           const parseRes = await response.json();
+          console.log(parseRes)
           setFollowingCount(parseRes.seguidos);
           setFollowersCount(parseRes.seguidores);
         } catch (error) {
@@ -125,15 +126,12 @@ const SocialPage = () => {
       };
   useEffect(() => {
     if(isLoggedIn === "true"){
-      if (!useEffectHasRun.current) {
         fetchData(); // Llamamos a la función asíncrona dentro de useEffect
         fetchData3();
-      useEffectHasRun.current = true;
-      }
     }else{
       setError("Inicia sesión para ver lo que han compartido tus amigos")
     }
-  }, [showAddFriendsModal]);
+  }, []);
 
 
 

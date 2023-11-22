@@ -37,7 +37,7 @@ function CrearLista({ onClose }) {
       }
     } else {
       console.warn('El campo de nombre de lista está vacío');
-      setMessage("Por favor, ingresa un nombre para la lista.");
+      setMessage("Error, Por favor, ingresa un nombre para la lista.");
     }
   };
 

@@ -44,35 +44,41 @@ function AjustesUsuario() {
 
   const handleSaveClick = async () => {
     const { oldPassword, oldPasswordInput, newPassword, confirmPassword } = userData;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Expresión regular para validar contraseña
+
     if (newPassword.trim() === '') {
         setErrorMessage('La nueva contraseña no puede estar vacía');
-        setSuccessMessage(''); // Limpiar mensaje de éxito si hay error
-    }else if (oldPassword !== oldPasswordInput) {
-      setErrorMessage('La antigua contraseña no es correcta');
-      setSuccessMessage(''); // Limpiar mensaje de éxito si hay error
-    } else if (newPassword !== confirmPassword ) {
-      setErrorMessage('Las contraseñas nuevas no coinciden');
-      setSuccessMessage(''); // Limpiar mensaje de éxito si hay error
+        setSuccessMessage('');
+    } else if (oldPassword !== oldPasswordInput) {
+        setErrorMessage('La antigua contraseña no es correcta');
+        setSuccessMessage('');
+    } else if (newPassword !== confirmPassword) {
+        setErrorMessage('Las contraseñas nuevas no coinciden');
+        setSuccessMessage('');
+    } else if (!passwordRegex.test(newPassword)) {
+        setErrorMessage('La nueva contraseña debe tener al menos 6 caracteres y contener letras y números');
+        setSuccessMessage('');
     } else {
-      try {
-        const body = { idusuario: localStorage.getItem('idUser'), password: newPassword };
-        const response = await fetch('http://localhost:3001/user/', {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        });
-        const data = await response.json();
-        setSuccessMessage('Contraseña cambiada con éxito');
-        setErrorMessage(''); // Limpiar mensaje de error si hay éxito
-      } catch (error) {
-        console.error('Error al cambiar la contraseña:', error);
-        setSuccessMessage(''); // Limpiar mensaje de éxito si hay error
-        setErrorMessage('Error al cambiar la contraseña');
-      }
+        try {
+            const body = { idusuario: localStorage.getItem('idUser'), password: newPassword };
+            const response = await fetch('http://localhost:3001/user/', {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+            const data = await response.json();
+            setSuccessMessage('Contraseña cambiada con éxito');
+            setErrorMessage('');
+        } catch (error) {
+            console.error('Error al cambiar la contraseña:', error);
+            setSuccessMessage('');
+            setErrorMessage('Error al cambiar la contraseña');
+        }
     }
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

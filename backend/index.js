@@ -18,9 +18,6 @@ app.use('/user', userRoutes)
 app.use('/prod', prodRoutes)
 app.use('/publicacion', publicacionRoutes)
 app.use('/listas', listasRoutes)
-app.use('/', (req, res) =>{
-  res.send("hello WOrld!");
-})
 
 
 app.listen(process.env.port, () => {

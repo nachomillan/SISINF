@@ -78,9 +78,8 @@ router.delete('/:idlista/:idprod', async (req,res) =>{
 router.delete('/:id', async (req,res) =>{
     try {
       const listaId = req.params.id
-      const listas = await FuncionesListas.eliminarTodoDeUnaLista(listaId);
-      const listasD = await FuncionesListas.eliminarLista(listaId);
-      console.log(listas)
+      await FuncionesListas.eliminarTodoDeUnaLista(listaId);
+      await FuncionesListas.eliminarLista(listaId);
       res.status(200).json("eliminado");
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar peli de listas' });

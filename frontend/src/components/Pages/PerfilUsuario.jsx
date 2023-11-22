@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect/* , useRef */ } from 'react';
 import Menu from '../Menu';
 import NavegadorNoBuscar from '../NavegadorNoBuscar';
 import { useNavigate } from 'react-router-dom';
 import { FaCog } from 'react-icons/fa';
 import '../Estilos/PerfilUsuario.css'; // Importa el archivo de estilos CSS
+import VerSeguidos from '../VerSeguidos';
+import VerSeguidores from '../VerSeguidores';
 
 const PerfilUsuario = () => {
   const [followersCount, setFollowersCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
   const [posts, setPosts] = useState([])
-  const useEffectHasRun = useRef(false);
+    const [showSeguidores, setShowSeguidores] = useState(false);
+  const [showSeguidos, setShowSeguidos] = useState(false);
+  // const useEffectHasRun = useRef(false);
   const navigate = useNavigate();
   async function obtenerUrlDeImagen(id) {
     try {
@@ -63,7 +67,7 @@ const PerfilUsuario = () => {
             try {
               const data = await obtenerUrlDeImagen(post.idprodpublicar);
               const _user = localStorage.getItem('username');
-              return { ...post, titulo: data.titulo, imagen : data.imagen , user:_user };
+              return { ...post, titulo: data.titulo, imagen : data.imagen , user:_user,  idapi:data.idapi };
             } catch (error) {
               console.error('Error al obtener la imagen para la publicación:', error);
             }
@@ -83,7 +87,20 @@ const PerfilUsuario = () => {
     //   useEffectHasRun.current = true;
     // }
   }, []);
-
+    const openSeguidores = () => {
+    setShowSeguidores(true);
+  };
+  const closeSeguidores = () => {
+    setShowSeguidores(false);
+  };
+  const openSeguidos = () => {
+    setShowSeguidos(true);
+  };
+  const closeSeguidos = () => {
+    setShowSeguidos(false);
+    fetchData(); // Llamamos a la función asíncrona dentro de useEffect
+    fetchData3();
+  };
 
 
    return (
@@ -98,8 +115,12 @@ const PerfilUsuario = () => {
             <FaCog />
           </div>
           <div className="user-stats">
-            <p style={{color:'black'}}>Seguidores: {followersCount}</p>
-            <p style={{color:'black'}}>Siguiendo: {followingCount}</p>
+                  <button className="stats-button" onClick={openSeguidores}>
+                    Seguidores: {followersCount}
+                  </button>
+                  <button className="stats-button" onClick={openSeguidos}>
+                    Siguiendo: {followingCount}
+                  </button>
           </div>
           <h2>Tus publicaciones</h2>
         </div>
@@ -109,7 +130,7 @@ const PerfilUsuario = () => {
           {posts.map((post) => (
             <div key={post.idpublicar} className="post">
               <div className="post-left">
-                <img src={post.imagen} alt={`Foto del usuario ${post.idusuario}`} />
+                <img src={post.imagen} alt={`Foto del usuario ${post.idusuario}`} onClick={()=>{navigate(`/movies/${post.idapi}`)}} />
               </div>
               <div className="post-right">
                 <h1 style={{color:'black', fontSize:'30px'}}>{post.titulo}</h1>
@@ -119,6 +140,8 @@ const PerfilUsuario = () => {
             </div>
           ))}
         </div>
+          {showSeguidos && <VerSeguidos onClose={closeSeguidos} />}
+          {showSeguidores && <VerSeguidores onClose={closeSeguidores} />}
       </div>
     </div>
   </div>

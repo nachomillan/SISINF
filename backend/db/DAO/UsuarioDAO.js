@@ -1,6 +1,4 @@
 const pool = require('./ConnectionManager');
-const usuarioVO = require('../VO/UsuarioVO');
-// const bcrypt = require('bcrypt')
     async function crearUsuario(nombreusuario, foto, correo, contrasena) {
         const query = 'INSERT INTO usuario (nombreUsuario, foto, correo, contrasena) VALUES ($1, $2, $3, $4) RETURNING iduser';
         // const salt = await bcrypt.genSalt();

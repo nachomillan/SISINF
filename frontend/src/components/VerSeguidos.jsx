@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Estilos/VerSeguidos.css';
 
 function VerSeguidos({ onClose }) {
-  const navigate = useNavigate();
   const [followingList, setFollowingList] = useState([]);
 
   const handleUnfollow = async (friend) => {

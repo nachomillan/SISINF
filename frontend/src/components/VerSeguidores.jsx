@@ -1,35 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Estilos/VerSeguidos.css';
 
 function VerSeguidores({ onClose }) {
-  const navigate = useNavigate();
   const [followingList, setFollowingList] = useState([]);
-
-  const handleUnfollow = async (friend) => {
-    try {
-      const body = {
-        follower: localStorage.getItem('username'),
-        friend: friend.username,
-      };
-
-      const response = await fetch('http://localhost:3001/user/dejar-de-seguir', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-
-      const parseRes = await response.json();
-
-      if (parseRes === 'dejado de seguir') {
-        setFollowingList((prevList) => prevList.filter((item) => item.username !== friend.username));
-      }
-    } catch (error) {
-      console.error('Error al dejar de seguir al usuario:', error);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {

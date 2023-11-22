@@ -1,5 +1,4 @@
 const pool = require('./ConnectionManager');
-const usuarioVO = require('../VO/UsuarioVO')
     async function crearLista(nombreLista, idusuario) {
         const query = 'INSERT INTO lista (nombre, usuario_id) VALUES ($1, $2) RETURNING idlista';
         const values = [nombreLista, idusuario];
@@ -66,11 +65,11 @@ const usuarioVO = require('../VO/UsuarioVO')
         try {
             const result = await client.query(query, values);
             // Verificar si se eliminó algún registro
-            if (result.rowCount > 0) {
+            // if (result.rowCount > 0) {
                 return true; // Indica que la lista se eliminó con éxito
-            } else {
-                return false; // Indica que no se encontró la lista para eliminar
-            }
+            // } else {
+            //     return false; // Indica que no se encontró la lista para eliminar
+            // }
         } catch (error) {
             throw error;
         } finally {
@@ -98,7 +97,8 @@ const usuarioVO = require('../VO/UsuarioVO')
         try {
             const result = await client.query(query, values);
             console.log(result)
-            return result.rows[0]
+            // return result.rows[0]
+            return true
         } catch (error) {
             throw error;
         } finally {

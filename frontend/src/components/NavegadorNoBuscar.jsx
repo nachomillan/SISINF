@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import './Estilos/Navegador.css';
 const logo = require('../images/logo.jpeg')
 function NavegadorNoBusqueda({ onSearch }) {

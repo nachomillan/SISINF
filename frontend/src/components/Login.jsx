@@ -29,8 +29,8 @@ const Login = () => {
       // console.log(response)
        const parseRes = await response.json();
       console.log(parseRes)
-      if (parseRes === null) {
-        setValues({ ...values, message: parseRes });
+      if (parseRes === "Incorrecto") {
+        setValues({ ...values, message: "Nombre o contraseña incorrectas" });
       } else {
         localStorage.setItem('isLoggedIn', true)
         localStorage.setItem('username',body.nombreusuario)
@@ -59,11 +59,7 @@ const Login = () => {
             required
           />
         </div>
-        {message && (
-          <div className="alert" role="alert">
-            {message}
-          </div>
-        )}
+       
         <div className="form-group">
           <label className="form-label">Password</label>
           <input
@@ -75,12 +71,20 @@ const Login = () => {
             placeholder="Enter password"
           />
         </div>
+         {message && (
+          <div className="alert" role="alert">
+            {message}
+          </div>
+        )}
         <div className="d-grid">
           <button type="submit" className="submit-button">
             Submit
           </button>
         </div>
       </form>
+       <p style={{color:'black'}} className="register-link">
+        ¿No tienes cuenta? <a href="/signup" onClick={() => navigate('/signup')}>Regístrate</a>
+      </p>
     </div>
   );
 

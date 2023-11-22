@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
 import './Estilos/MovieDetail.css'; // Importa tu archivo de estilos CSS
 import AgnadirAListas from './AgnadirAListas'
 import Menu from './Menu';
@@ -8,8 +7,8 @@ import NavegadorNoBuscar from './NavegadorNoBuscar';
 import StarRating from './StarRating';
 
 function MovieDetail() {
-  const navigate = useNavigate();
     const { id } = useParams();
+    const [ratingError, setRatingError] = useState("");
     const [movieData, setMovieData] = useState({});
     const [rating, setRating] = useState(0); // Estado para la calificación
     const [comment, setComment] = useState("");
@@ -67,18 +66,27 @@ function MovieDetail() {
 
     const realizarCalificacion = async (e) => {
         e.preventDefault();
+        // Validar comentario y estrellas
+        if (rating === 0) {
+            setRatingError("Por favor, selecciona una calificación");
+            return;
+        }
+        if (!comment.trim()) {
+            setRatingError("Por favor, agrega un comentario");
+            return;
+        }   
+
         try {
             const body = { idapi:id, titulo:  movieData.title.title , genero:movieData.genres[0], agno:movieData.title.year, duracion:movieData.title.runningTimeInMinutes, tipo:0, ntemporadas: 0, imagen:movieData.title.image.url};
             const response = await fetch('http://localhost:3001/prod', {
             method: 'POST',
             headers: {
-              'Content-type': 'application/json',
+                'Content-type': 'application/json',
             },
             body: JSON.stringify(body),
             });
             const resIdProd = await response.json();
             const idProdInt = parseInt(resIdProd.idprod, 10);
-            console.log(resIdProd)
             const currentDateTime = new Date().toISOString();
             const body2 = {iduserpublicar:localStorage.getItem('idUser'), idprodpublicar:idProdInt, valoracion:rating, comentario:comment, fecha:currentDateTime};
             const response2 = await fetch('http://localhost:3001/publicacion', {
@@ -90,20 +98,22 @@ function MovieDetail() {
             });
             const parseRes = await response2.json();
             console.log(parseRes)
-            if(parseRes === "Error en algun campo"){
+            if (parseRes === "Error en algun campo") {
                 setError("Error al calificar la película.");
-                setConfirmationMessage(""); // Limpiar cualquier mensaje de éxito previo     
-            }else if(parseRes === "Esta produccion ya ha sido calificada"){
-                setError("Esta produccion ya ha sido calificada");
-                setConfirmationMessage(""); // Limpiar cualquier mensaje de éxito previo   
-            }else{
+                setConfirmationMessage(""); // Limpiar cualquier mensaje de éxito previo
+            } else if (parseRes === "Esta produccion ya ha sido calificada") {
+                setRatingError("Esta produccion ya ha sido calificada");
+                setError(""); // Limpiar cualquier mensaje de error previo
+                setConfirmationMessage(""); // Limpiar cualquier mensaje de éxito previo
+            } else {
                 setConfirmationMessage("¡Película calificada con éxito!");
                 setError(""); // Limpiar cualquier mensaje de error previo
+                setRatingError(""); // Limpiar cualquier mensaje de error de calificación previo
             }
         } catch (error) {
             console.error('Error:', error);
             setError("Error al calificar la película. Por favor, inténtalo de nuevo.");
-            setConfirmationMessage(""); // Limpiar cualquier mensaje de éxito previo                  
+            setConfirmationMessage(""); // Limpiar cualquier mensaje de éxito previo
         }
     };
     useEffect(() => {
@@ -146,11 +156,17 @@ function MovieDetail() {
                         <div className="rating">
                             <StarRating rating={rating} onRatingChange={handleRatingChange} />
                         </div>
+                         
                         <textarea
                             placeholder="Deja tu comentario"
                             value={comment}
                             onChange={handleCommentChange}
                         />
+                        {ratingError && (
+                            <div className="error-message">
+                                {ratingError}
+                            </div>
+                        )}
                         <button type="submit">Calificar</button>
                     </form>
                 ) : (

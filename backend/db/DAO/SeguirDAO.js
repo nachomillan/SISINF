@@ -79,6 +79,20 @@ async function obtenerSeguidosPorId(iduser) {
         client.release();
     }
 }
+async function obtenerSeguidoresPorId(iduser) {
+ const query = 'SELECT seguidor_id, seguido_id FROM seguir WHERE seguido_id = $1 GROUP BY seguidor_id, seguido_id';
+    const values = [iduser];
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(query, values);
+            return result.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 async function obtenerSeguidos(iduser) {
  const query = 'SELECT seguidor_id, COUNT(seguidor_id) AS cantidad FROM seguir WHERE seguidor_id = $1 GROUP BY seguidor_id';
     const values = [iduser];
@@ -166,5 +180,6 @@ module.exports = {
     obtenerSeguidos,
     obtenerSeguidosPorNombre,
     obtenerSeguidosPorId,
+    obtenerSeguidoresPorId,
     dejarDeSeguir
 };

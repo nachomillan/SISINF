@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import './Estilos/MovieSearch.css'; // Importa tu archivo de estilos CSS
 
 function MovieSearch({onSearch}) {

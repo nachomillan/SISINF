@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const FuncionesUsuario = require("../db/DAO/UsuarioDAO");
 const FuncionesSeguir= require("../db/DAO/SeguirDAO");
-const user = require("../db/VO/UsuarioVO");
 // Ruta para crear un nuevo usuario
 router.post('/signup', async (req, res) => {
   try {
+    console.log("hola")
     const { nombreusuario, foto, correo, contrasena} = req.body;
     // const nuevo = new user.UsuarioVO(nombreusuario, foto, correo)
     const validacionPorNombre = await FuncionesUsuario.validarUsuarioPorNombre(nombreusuario)
@@ -15,8 +15,10 @@ router.post('/signup', async (req, res) => {
     if(validacionPorCorreo == false && validacionPorNombre== false){
         const newUser = await FuncionesUsuario.crearUsuario(nombreusuario, foto, correo, contrasena);
         res.status(201).json(newUser);
-    }else{
-        res.status(404).json("Error en algun campo")
+    }else if(validacionPorCorreo == true){
+        res.status(404).json("El correo ya existe")
+      }else{
+        res.status(404).json("El nombre de usuario ya existe")
     }
   } catch (error) {
     console.log(error)
@@ -125,11 +127,11 @@ router.get('/seguidos/:id', async (req, res) => {
 router.get('/seguidores/:id', async (req, res) => {
   try {
     const idUser = req.params.id;
-    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidosPorId(idUser);
-
+    const cantidadSeguidos = await FuncionesSeguir.obtenerSeguidoresPorId(idUser);
+    console.log(cantidadSeguidos)
     // Utiliza Promise.all para esperar que todas las promesas se completen
     const resultados = await Promise.all(cantidadSeguidos.map(async (seguido) => {
-      const usuario = await FuncionesUsuario.buscarNombreUsuarioPorId(seguido.seguido_id);
+      const usuario = await FuncionesUsuario.buscarNombreUsuarioPorId(seguido.seguidor_id);
       return {
         idusuario: seguido.seguido_id,
         nombreusuario: usuario.nombreusuario
@@ -178,7 +180,6 @@ router.get('/datos/:id', async(req,res)=>{
 });
 // Ruta para actualizar un usuario por su ID
 router.put('/', async(req,res)=>{
-  console.log("Hola")
   try {
     console.log(req.body)
     const { idusuario, password } = req.body;
