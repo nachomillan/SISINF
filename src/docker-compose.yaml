@@ -1,6 +1,6 @@
 version: '3'
 services:
-  node-app:
+  backend:
     image: node:15
     working_dir: /home/node/app
     volumes:
@@ -9,11 +9,11 @@ services:
       - "3001:3001"
     command: npm start
 
-  react-app:
-    image: node:15
-    working_dir: /home/frontend
-    volumes:
-      - ./frontend:/home/frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    command: npm start
+    volumes:
+      - ./frontend:/home/frontend
