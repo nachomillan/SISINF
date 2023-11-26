@@ -1,0 +1,104 @@
+/* CrearLista.css */
+
+/* Black background panel */
+.crear-lista-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top of other content */
+}
+
+/* Content container within the panel */
+.crear-lista-content {
+  background-color: #fff; /* White background for the content */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 300px; /* Adjust the width as needed */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Headline for the "Crear Lista" section */
+.crear-lista-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Text input for entering the list name */
+.crear-lista-content input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* "Aceptar" button */
+.accept-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.accept-button:hover {
+  background-color: #0056b3;
+}
+
+/* "Cancelar" button */
+.cancel-button {
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-button:hover {
+  background-color: #999;
+}
+/* Estilos generales para los mensajes */
+.message {
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+  color: #721c24;
+  /* Color de texto para mensajes de error */
+  background-color: #f8d7da;
+  /* Color de fondo para mensajes de error */
+  border: 1px solid #f5c6cb;
+  /* Borde para mensajes de error */
+}
+
+/* Estilos para mensajes de confirmación */
+.success-message {
+  color: #155724;
+  /* Color de texto para mensajes de confirmación */
+  background-color: #d4edda;
+  /* Color de fondo para mensajes de confirmación */
+  border: 1px solid #c3e6cb;
+  /* Borde para mensajes de confirmación */
+}

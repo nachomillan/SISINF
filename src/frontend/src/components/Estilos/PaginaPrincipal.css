@@ -1,0 +1,52 @@
+/* PaginaPrincipal.css */
+
+.content {
+    margin: 20px;
+}
+
+.movie-search-container {
+    margin-top: 20px;
+}
+
+.search-results {
+    margin-top: 10px;
+}
+
+.movie-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.movie-item {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.movie-item:hover {
+    background-color: #f0f0f0;
+}
+
+.movie-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Importa estilos de Navegador.css aquí */
+/* PaginaPrincipal.css */
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /* Asegura que el contenedor abarque el ancho completo */
+}
+
+.icon {
+    color: white;
+    cursor: pointer;
+    margin: 0 10px;
+}

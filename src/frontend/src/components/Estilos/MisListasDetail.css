@@ -1,0 +1,53 @@
+/* Estilos para MisListasDetail.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.movieList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.movieItem {
+    display: flex;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.movieImage {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.movieDetails {
+    flex-grow: 1;
+}
+
+.movieTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.remove-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-button:hover {
+    background-color: #c0392b;
+}

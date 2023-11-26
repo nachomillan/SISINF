@@ -1,0 +1,68 @@
+/* MisListas.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.lista-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Esto asegura que el contenedor ocupe al menos el 100% del alto de la pantalla */
+}
+
+.lista-title {
+    text-align: center;
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+.lista-listas {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.serie-item {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 600px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.serie-item:hover {
+    background-color: #e0e0e0;
+}
+
+.serie-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.serie-info h3 {
+    margin: 0;
+}
+/* MisListas.css */
+
+.eliminar-lista-button {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.eliminar-lista-button:hover {
+    background-color: #cc0000;
+}       

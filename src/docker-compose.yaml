@@ -1,0 +1,19 @@
+version: '3'
+services:
+  node-app:
+    image: node:15
+    working_dir: /home/node/app
+    volumes:
+      - ./backend:/home/node/app
+    ports:
+      - "3001:3001"
+    command: npm start
+
+  react-app:
+    image: node:15
+    working_dir: /home/node/frontend
+    volumes:
+      - ./frontend:/home/node/frontend
+    ports:
+      - "3000:3000"
+    command: npm start
