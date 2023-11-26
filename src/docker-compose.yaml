@@ -11,9 +11,9 @@ services:
 
   react-app:
     image: node:15
-    working_dir: /home/node/frontend
+    working_dir: /home/frontend
     volumes:
-      - ./frontend:/home/node/frontend
+      - ./frontend:/home/frontend
     ports:
       - "3000:3000"
     command: npm start
